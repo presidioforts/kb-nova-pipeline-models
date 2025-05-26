@@ -183,6 +183,36 @@ make serve-prod
 
 The API will be available at `http://localhost:8000`
 
+### Chroma DB Integration
+
+This project integrates with [Chroma](https://www.trychroma.com/), an open-source AI application database that provides:
+
+- **Vector embeddings** using your fine-tuned SentenceTransformer models
+- **Semantic search** across knowledge base items and chat history
+- **Persistent storage** for conversations and documents
+- **Metadata filtering** for advanced queries
+- **Multi-modal support** for future enhancements
+
+#### Key Features:
+- 🔍 **Semantic Search**: Find relevant solutions using vector similarity
+- 💬 **Context-Aware Chat**: Conversations that remember previous interactions
+- 📚 **Knowledge Base Integration**: Automatic indexing of troubleshooting solutions
+- 🔄 **Real-time Updates**: Dynamic addition of new knowledge and conversations
+- 📊 **Analytics**: Track usage patterns and improve responses
+
+#### Chat API Endpoints:
+- `POST /chat` - Send a chat message with context awareness
+- `POST /chat/session` - Create a new chat session
+- `GET /chat/session/{id}/history` - Get chat history
+- `GET /chat/search` - Search across conversations
+- `GET /chroma/stats` - Get Chroma database statistics
+
+#### Demo:
+```bash
+# Run the Chroma integration demo
+python examples/chroma_demo.py
+```
+
 ## 📈 MLOps
 
 ### Experiment Tracking
