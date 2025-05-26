@@ -1,0 +1,89 @@
+# Main Configuration for KB Nova Pipeline Models
+
+# Project Information
+project:
+  name: "kb-nova-pipeline-models"
+  version: "0.1.0"
+  description: "AI/ML Pipeline Models for Knowledge Base Nova"
+
+# Environment Settings
+environment:
+  name: "development"  # development, staging, production
+  debug: true
+  log_level: "INFO"
+
+# Data Configuration
+data:
+  raw_path: "data/raw"
+  processed_path: "data/processed"
+  external_path: "data/external"
+  interim_path: "data/interim"
+  batch_size: 32
+  validation_split: 0.2
+  test_split: 0.1
+  random_seed: 42
+
+# Model Configuration
+model:
+  type: "transformer"  # transformer, cnn, rnn, etc.
+  architecture: "bert-base-uncased"
+  max_sequence_length: 512
+  hidden_size: 768
+  num_attention_heads: 12
+  num_hidden_layers: 12
+  dropout_rate: 0.1
+  learning_rate: 2e-5
+  weight_decay: 0.01
+
+# Training Configuration
+training:
+  epochs: 10
+  batch_size: 16
+  gradient_accumulation_steps: 2
+  warmup_steps: 1000
+  max_grad_norm: 1.0
+  save_steps: 500
+  eval_steps: 100
+  logging_steps: 50
+  early_stopping_patience: 3
+  metric_for_best_model: "eval_loss"
+
+# Paths
+paths:
+  models: "models"
+  trained_models: "models/trained"
+  artifacts: "models/artifacts"
+  logs: "logs"
+  reports: "reports"
+  notebooks: "notebooks"
+
+# API Configuration
+api:
+  host: "0.0.0.0"
+  port: 8000
+  workers: 4
+  reload: true
+  log_level: "info"
+
+# MLOps Configuration
+mlops:
+  experiment_tracking: "mlflow"  # mlflow, wandb, tensorboard
+  model_registry: "mlflow"
+  artifact_store: "local"  # local, s3, gcs, azure
+
+# Security Settings
+security:
+  allowed_hosts:
+    - "localhost"
+    - "127.0.0.1"
+  cors_origins:
+    - "http://localhost:3000"
+    - "http://localhost:8080"
+  max_request_size: "10MB"
+  rate_limit: "100/minute"
+
+# Monitoring
+monitoring:
+  enable_metrics: true
+  enable_health_checks: true
+  metrics_port: 9090 
