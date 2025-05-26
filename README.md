@@ -213,6 +213,11 @@ This project integrates with [Chroma](https://www.trychroma.com/), an open-sourc
 python examples/chroma_demo.py
 ```
 
+#### Learn More:
+- 🌐 **Chroma Official Website**: [https://www.trychroma.com/](https://www.trychroma.com/)
+- 📖 **Chroma Documentation**: Available on their website
+- 💬 **Chroma Community**: Join their Discord for support
+
 ## 📈 MLOps
 
 ### Experiment Tracking
