@@ -25,15 +25,21 @@ data:
 
 # Model Configuration
 model:
-  type: "transformer"  # transformer, cnn, rnn, etc.
-  architecture: "bert-base-uncased"
-  max_sequence_length: 512
-  hidden_size: 768
-  num_attention_heads: 12
-  num_hidden_layers: 12
+  type: "sentence_transformer"  # sentence_transformer, transformer, cnn, rnn, etc.
+  base_model_name: "all-MiniLM-L6-v2"  # Your current model
+  architecture: "all-MiniLM-L6-v2"
+  max_sequence_length: 256
+  embedding_dimension: 384
+  device: "auto"  # auto, cuda, cpu
   dropout_rate: 0.1
   learning_rate: 2e-5
   weight_decay: 0.01
+  
+  # Alternative models for comparison
+  alternative_models:
+    - "all-MiniLM-L12-v2"
+    - "all-mpnet-base-v2"
+    - "all-distilroberta-v1"
 
 # Training Configuration
 training:
