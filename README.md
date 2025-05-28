@@ -1,6 +1,30 @@
 # KB Nova Pipeline Models
 
-A comprehensive AI/ML pipeline for knowledge base processing and model training with production-ready folder structure and security standards.
+**Pipeline Transformer and RAG models for knowledge base troubleshooting**
+
+## 🚀 **Quick Start for Developers**
+
+**New to this codebase?** Start here for easy navigation:
+
+```bash
+# 1. Understand the structure and concepts (no dependencies needed)
+python explore_code.py
+
+# 2. See your SentenceTransformer code in action (no dependencies needed)  
+python examples/simple_sentence_transformer_demo.py
+
+# 3. Test individual components
+python test_components.py
+
+# 4. Read the developer guide
+code DEVELOPER_GUIDE.md
+```
+
+**Key Files to Explore:**
+- `src/models/kb_model.py` - Your SentenceTransformer integration
+- `src/api/main.py` - FastAPI web service
+- `examples/simple_sentence_transformer_demo.py` - Working demo
+- `DEVELOPER_GUIDE.md` - Complete navigation guide
 
 ## 🏗️ Project Structure
 
