@@ -1,0 +1,26 @@
+# Simplified Knowledge Base Configuration
+# Copy this file to .env and modify as needed
+
+# Model Configuration
+MODEL_NAME=all-mpnet-base-v2
+MODELS_DIR=./models
+
+# Storage Configuration
+CHROMADB_PATH=./chroma_db
+
+# Performance Tuning
+CHUNK_SIZE=500
+HOT_CACHE_SIZE=100
+
+# Logging
+LOG_LEVEL=INFO
+
+# Development Settings (uncomment for development)
+# LOG_LEVEL=DEBUG
+# HOT_CACHE_SIZE=50
+
+# Production Settings (uncomment for production)
+# MODELS_DIR=/app/models
+# CHROMADB_PATH=/app/data/chroma
+# HOT_CACHE_SIZE=200
+# LOG_LEVEL=WARNING 

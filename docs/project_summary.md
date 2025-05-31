@@ -48,7 +48,6 @@ This project evolved from a monolithic FastAPI sentence transformer service into
 - Current limitations: In-memory storage, no persistence, scalability issues
 - ChromaDB benefits: Persistent storage, advanced search, metadata support
 - Performance trade-offs: Latency vs scalability
-- Cost analysis: In-memory ($250/month) vs ChromaDB ($380/month) vs Hybrid ($530/month)
 
 **Key Documents Created**:
 - `docs/architecture_analysis.md` - Comprehensive comparison
