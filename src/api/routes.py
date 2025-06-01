@@ -2,6 +2,8 @@
 API Routes for Hybrid Knowledge Base Service
 """
 
+import os
+import psutil
 import asyncio
 import logging
 from typing import List, Dict, Any
@@ -20,6 +22,168 @@ router = APIRouter()
 
 # Training job storage (in production, use Redis or database)
 training_jobs: Dict[str, Dict[str, Any]] = {}
+
+# Development detection
+def is_development() -> bool:
+    """Detect if running in development mode"""
+    return (
+        os.getenv("ENVIRONMENT", "").lower() in ["dev", "development"] or
+        os.getenv("DEBUG", "").lower() in ["true", "1"] or
+        "--reload" in " ".join(os.sys.argv) if hasattr(os, 'sys') else False
+    )
+
+@router.get("/dev/health")
+async def development_health_check(
+    hybrid_kb: HybridKnowledgeBase = Depends(get_hybrid_kb)
+) -> JSONResponse:
+    """
+    Development-specific health check with detailed debugging information
+    Only available in development mode
+    """
+    if not is_development():
+        raise HTTPException(
+            status_code=404, 
+            detail="Development endpoints only available in development mode"
+        )
+    
+    try:
+        # Get basic health info
+        health_info = await hybrid_kb.health_check()
+        perf_stats = hybrid_kb.get_performance_stats()
+        
+        # System information
+        memory = psutil.virtual_memory()
+        disk = psutil.disk_usage('.')
+        
+        # Development-specific metrics
+        dev_health = {
+            "service_info": {
+                "name": "Hybrid Knowledge Base Service",
+                "version": "2.1.0",
+                "mode": "development",
+                "uptime_seconds": (datetime.now() - datetime.fromtimestamp(psutil.Process().create_time())).total_seconds(),
+                "process_id": os.getpid(),
+                "python_version": f"{os.sys.version_info.major}.{os.sys.version_info.minor}.{os.sys.version_info.micro}",
+                "working_directory": os.getcwd()
+            },
+            
+            "system_resources": {
+                "memory": {
+                    "total_gb": round(memory.total / (1024**3), 2),
+                    "available_gb": round(memory.available / (1024**3), 2),
+                    "used_percent": memory.percent,
+                    "status": "healthy" if memory.percent < 80 else "warning" if memory.percent < 90 else "critical"
+                },
+                "disk": {
+                    "total_gb": round(disk.total / (1024**3), 2),
+                    "free_gb": round(disk.free / (1024**3), 2),
+                    "used_percent": round((disk.used / disk.total) * 100, 1),
+                    "status": "healthy" if disk.used / disk.total < 0.8 else "warning"
+                },
+                "cpu_count": psutil.cpu_count(),
+                "cpu_percent": psutil.cpu_percent(interval=1)
+            },
+            
+            "environment_variables": {
+                "relevant_env_vars": {
+                    "ENVIRONMENT": os.getenv("ENVIRONMENT", "not_set"),
+                    "DEBUG": os.getenv("DEBUG", "not_set"),
+                    "LOG_LEVEL": os.getenv("LOG_LEVEL", "not_set"),
+                    "MODEL_NAME": os.getenv("MODEL_NAME", "not_set"),
+                    "CHROMADB_PATH": os.getenv("CHROMADB_PATH", "not_set"),
+                    "HOT_CACHE_SIZE": os.getenv("HOT_CACHE_SIZE", "not_set"),
+                    "CHUNK_SIZE": os.getenv("CHUNK_SIZE", "not_set")
+                },
+                "python_path": os.getenv("PYTHONPATH", "not_set"),
+                "virtual_env": os.getenv("VIRTUAL_ENV", "not_set")
+            },
+            
+            "development_metrics": {
+                "hot_reload_enabled": "--reload" in " ".join(getattr(os.sys, 'argv', [])),
+                "total_queries_processed": perf_stats.get('total_queries', 0),
+                "active_training_jobs": len([j for j in training_jobs.values() if j["status"] == "running"]),
+                "total_training_jobs_created": len(training_jobs),
+                "recent_error_count": len([r for r in logger.handlers if hasattr(r, 'buffer')]),
+                "file_watchers_active": "uvicorn auto-reload enabled" if "--reload" in " ".join(getattr(os.sys, 'argv', [])) else "not detected"
+            },
+            
+            "component_details": {
+                "hybrid_kb_status": health_info,
+                "performance_stats": perf_stats,
+                "detailed_component_health": {
+                    "hot_cache": {
+                        "status": health_info.get('components', {}).get('hot_cache', {}).get('status', 'unknown'),
+                        "item_count": health_info.get('components', {}).get('hot_cache', {}).get('item_count', 0),
+                        "hit_rate": f"{perf_stats.get('hot_hit_rate', 0) * 100:.1f}%",
+                        "avg_response_time_ms": perf_stats.get('hot_memory_avg_ms', 0)
+                    },
+                    "chromadb": {
+                        "status": health_info.get('components', {}).get('chromadb', {}).get('status', 'unknown'),
+                        "item_count": health_info.get('components', {}).get('chromadb', {}).get('item_count', 0),
+                        "hit_rate": f"{perf_stats.get('cold_hit_rate', 0) * 100:.1f}%",
+                        "avg_response_time_ms": perf_stats.get('cold_storage_avg_ms', 0)
+                    },
+                    "sentence_transformer": {
+                        "status": health_info.get('components', {}).get('models', {}).get('sentence_transformer', 'unknown'),
+                        "model_loaded": True,  # If we got this far, model is loaded
+                        "embedding_dimensions": "384 (all-mpnet-base-v2 default)"
+                    }
+                }
+            },
+            
+            "file_system_status": {
+                "current_directory": os.getcwd(),
+                "models_directory_exists": os.path.exists("models"),
+                "chromadb_directory_exists": os.path.exists("./chroma_db"),
+                "config_files": {
+                    ".env": os.path.exists(".env"),
+                    "config.example": os.path.exists("config.example"),
+                    "requirements.txt": os.path.exists("requirements.txt"),
+                    "README.md": os.path.exists("README.md")
+                }
+            },
+            
+            "debug_information": {
+                "logger_level": logger.level,
+                "logger_handlers": [str(handler) for handler in logger.handlers],
+                "recent_log_locations": [
+                    "Check console output for real-time logs",
+                    "FastAPI logs available at /docs for API exploration",
+                    "Component logs available in this health check"
+                ],
+                "troubleshooting_tips": [
+                    "Check system_resources for performance bottlenecks",
+                    "Verify component_details for service health",
+                    "Monitor development_metrics for usage patterns",
+                    "Use environment_variables to verify configuration"
+                ]
+            },
+            
+            "overall_status": "healthy" if all([
+                health_info.get('status') == 'healthy',
+                memory.percent < 90,
+                disk.used / disk.total < 0.9
+            ]) else "warning",
+            
+            "timestamp": datetime.now().isoformat(),
+            "dev_mode_confirmed": True
+        }
+        
+        logger.info("Development health check completed successfully")
+        return JSONResponse(status_code=200, content=dev_health)
+        
+    except Exception as e:
+        logger.error(f"Development health check failed: {e}")
+        return JSONResponse(
+            status_code=500,
+            content={
+                "error": "Development health check failed",
+                "message": str(e),
+                "timestamp": datetime.now().isoformat(),
+                "dev_mode_confirmed": True,
+                "fallback_status": "unhealthy"
+            }
+        )
 
 @router.post("/troubleshoot")
 async def troubleshoot_query(

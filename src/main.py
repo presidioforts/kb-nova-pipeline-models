@@ -105,6 +105,7 @@ app = FastAPI(
     * `POST /train` - Start model fine-tuning
     * `GET /train/{job_id}` - Check training status
     * `GET /health` - Comprehensive system health
+    * `GET /dev/health` - Development-specific health with detailed debugging (dev mode only)
     * `GET /performance` - Detailed performance metrics
     * `POST /knowledge` - Add new knowledge items
     """,
@@ -166,6 +167,7 @@ async def root():
                     "troubleshoot": "/api/v1/troubleshoot",
                     "train": "/api/v1/train",
                     "health": "/api/v1/health",
+                    "dev_health": "/api/v1/dev/health",
                     "performance": "/api/v1/performance",
                     "knowledge": "/api/v1/knowledge",
                     "docs": "/docs"
