@@ -101,9 +101,14 @@ async def troubleshoot_query(
         
     except Exception as e:
         logger.error(f"Error processing LangChain troubleshoot query: {e}")
-        raise HTTPException(
+        return JSONResponse(
             status_code=500,
-            detail=f"Internal server error while processing query: {str(e)}"
+            content={
+                "overall_status": "unhealthy",
+                "error": "Internal server error",
+                "timestamp": datetime.now().isoformat(),
+                "langchain_integration": "failed"
+            }
         )
 
 @router.post("/train")
@@ -174,9 +179,14 @@ async def start_training(
         
     except Exception as e:
         logger.error(f"Error starting LangChain training: {e}")
-        raise HTTPException(
+        return JSONResponse(
             status_code=500,
-            detail=f"Failed to start LangChain training: {str(e)}"
+            content={
+                "overall_status": "unhealthy",
+                "error": "Training service error",
+                "timestamp": datetime.now().isoformat(),
+                "langchain_integration": "failed"
+            }
         )
 
 @router.get("/train/{job_id}")
@@ -254,7 +264,7 @@ async def health_check(
             status_code=503,
             content={
                 "overall_status": "unhealthy",
-                "error": str(e),
+                "error": "Health check failed",
                 "timestamp": datetime.now().isoformat(),
                 "langchain_integration": "failed"
             }
@@ -338,9 +348,14 @@ async def get_performance_metrics(
         
     except Exception as e:
         logger.error(f"Error getting LangChain performance metrics: {e}")
-        raise HTTPException(
+        return JSONResponse(
             status_code=500,
-            detail=f"Failed to get LangChain performance metrics: {str(e)}"
+            content={
+                "overall_status": "unhealthy",
+                "error": "Internal server error",
+                "timestamp": datetime.now().isoformat(),
+                "langchain_integration": "failed"
+            }
         )
 
 @router.post("/knowledge")
@@ -380,9 +395,14 @@ async def add_knowledge_item(
             
     except Exception as e:
         logger.error(f"Error adding knowledge item to LangChain: {e}")
-        raise HTTPException(
+        return JSONResponse(
             status_code=500,
-            detail=f"Failed to add knowledge item to LangChain: {str(e)}"
+            content={
+                "overall_status": "unhealthy",
+                "error": "Internal server error",
+                "timestamp": datetime.now().isoformat(),
+                "langchain_integration": "failed"
+            }
         )
 
 async def run_langchain_hybrid_training(
