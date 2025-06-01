@@ -70,7 +70,7 @@ python -m pytest tests/
 python -c "
 from src.api.routes import router
 from src.models.schemas import Query
-from src.models.langchain_hybrid_kb import LangChainHybridKnowledgeBase
+from src.models.hybrid_knowledge_base import HybridKnowledgeBase
 print('✅ All imports successful')
 "
 ```

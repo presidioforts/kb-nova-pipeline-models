@@ -1,5 +1,5 @@
 """
-API Routes for LangChain-based Hybrid Knowledge Base Service
+API Routes for Hybrid Knowledge Base Service
 """
 
 import asyncio
@@ -11,7 +11,7 @@ from fastapi import APIRouter, HTTPException, BackgroundTasks, Depends
 from fastapi.responses import JSONResponse
 
 from ..models.schemas import Query, TrainingPair, TrainingData, KnowledgeBaseItem
-from ..models.langchain_hybrid_kb import get_langchain_hybrid_kb, LangChainHybridKnowledgeBase
+from ..models.hybrid_knowledge_base import get_hybrid_kb, HybridKnowledgeBase
 from ..models.sentence_transformer import SentenceTransformerModel, get_model
 
 logger = logging.getLogger(__name__)
@@ -24,21 +24,21 @@ training_jobs: Dict[str, Dict[str, Any]] = {}
 @router.post("/troubleshoot")
 async def troubleshoot_query(
     query: Query,
-    langchain_kb: LangChainHybridKnowledgeBase = Depends(get_langchain_hybrid_kb)
+    hybrid_kb: HybridKnowledgeBase = Depends(get_hybrid_kb)
 ) -> JSONResponse:
     """
-    Intelligent troubleshooting with LangChain-based hybrid knowledge base routing
+    Intelligent troubleshooting with hybrid knowledge base routing
     
     Routes queries to optimal storage tier:
     - Hot Memory: 1-5ms for critical/frequent queries (SentenceTransformers)
-    - Warm Cache: 10-15ms for regular queries (LangChain + ChromaDB + Cache)
-    - Cold Storage: 25-50ms for comprehensive search (LangChain + ChromaDB)
+    - Warm Cache: 10-15ms for regular queries (ChromaDB + Cache)
+    - Cold Storage: 25-50ms for comprehensive search (ChromaDB)
     """
     try:
         start_time = datetime.now()
         
-        # Search using LangChain intelligent routing
-        results = await langchain_kb.search(query.text, top_k=5)
+        # Search using intelligent routing
+        results = await hybrid_kb.search(query.text, top_k=5)
         
         if not results:
             logger.warning(f"No results found for query: {query.text}")
@@ -52,7 +52,7 @@ async def troubleshoot_query(
                     "routing_info": {
                         "tier_used": "no_results",
                         "total_items_searched": 0,
-                        "langchain_integration": True
+                        "chromadb_integration": True
                     }
                 }
             )
@@ -70,7 +70,7 @@ async def troubleshoot_query(
             })
         
         # Get performance stats for response
-        perf_stats = langchain_kb.get_performance_stats()
+        perf_stats = hybrid_kb.get_performance_stats()
         search_time = (datetime.now() - start_time).total_seconds() * 1000
         
         response_data = {
@@ -79,35 +79,35 @@ async def troubleshoot_query(
             "search_time_ms": round(search_time, 2),
             "routing_info": {
                 "total_items_searched": len(results),
-                "langchain_integration": True,
-                "vector_store": "Chroma",
-                "embeddings": "SentenceTransformerEmbeddings",
+                "chromadb_integration": True,
+                "vector_store": "ChromaDB",
+                "embeddings": "SentenceTransformers",
                 "performance_tier_hit_rates": {
                     "hot_memory": round(perf_stats.get('hot_hit_rate', 0) * 100, 1),
-                    "warm_cache_langchain": round(perf_stats.get('warm_hit_rate', 0) * 100, 1),
-                    "cold_storage_langchain": round(perf_stats.get('cold_hit_rate', 0) * 100, 1)
+                    "warm_cache": round(perf_stats.get('warm_hit_rate', 0) * 100, 1),
+                    "cold_storage": round(perf_stats.get('cold_hit_rate', 0) * 100, 1)
                 }
             },
             "metadata": {
                 "timestamp": start_time.isoformat(),
                 "total_queries_processed": perf_stats.get('total_queries', 0),
                 "system_performance": "optimal" if search_time < 10 else "good" if search_time < 50 else "acceptable",
-                "architecture": "LangChain + ChromaDB Hybrid"
+                "architecture": "In-Memory + ChromaDB Hybrid"
             }
         }
         
-        logger.info(f"LangChain troubleshoot query processed in {search_time:.2f}ms: {query.text[:50]}...")
+        logger.info(f"Hybrid troubleshoot query processed in {search_time:.2f}ms: {query.text[:50]}...")
         return JSONResponse(status_code=200, content=response_data)
         
     except Exception as e:
-        logger.error(f"Error processing LangChain troubleshoot query: {e}")
+        logger.error(f"Error processing troubleshoot query: {e}")
         return JSONResponse(
             status_code=500,
             content={
                 "overall_status": "unhealthy",
                 "error": "Internal server error",
                 "timestamp": datetime.now().isoformat(),
-                "langchain_integration": "failed"
+                "chromadb_integration": "failed"
             }
         )
 
@@ -116,12 +116,12 @@ async def start_training(
     training_data: TrainingData,
     background_tasks: BackgroundTasks,
     model: SentenceTransformerModel = Depends(get_model),
-    langchain_kb: LangChainHybridKnowledgeBase = Depends(get_langchain_hybrid_kb)
+    hybrid_kb: HybridKnowledgeBase = Depends(get_hybrid_kb)
 ) -> JSONResponse:
     """
-    Start fine-tuning with LangChain hybrid knowledge base integration
+    Start fine-tuning with hybrid knowledge base integration
     
-    Trains the model and updates both in-memory and LangChain ChromaDB storage
+    Trains the model and updates both in-memory and ChromaDB storage
     """
     try:
         if not training_data.pairs:
@@ -140,59 +140,59 @@ async def start_training(
             "estimated_completion": None,
             "error": None,
             "model_version": None,
-            "langchain_integration": {
+            "hybrid_integration": {
                 "hot_cache_updated": False,
-                "langchain_chromadb_updated": False,
+                "chromadb_updated": False,
                 "new_items_added": 0,
-                "vector_store": "Chroma",
-                "embeddings": "SentenceTransformerEmbeddings"
+                "vector_store": "ChromaDB",
+                "embeddings": "SentenceTransformers"
             }
         }
         
         # Start training in background
         background_tasks.add_task(
-            run_langchain_hybrid_training,
+            run_hybrid_training,
             job_id,
             training_data.pairs,
             model,
-            langchain_kb
+            hybrid_kb
         )
         
-        logger.info(f"Started LangChain training job {job_id} with {len(training_data.pairs)} pairs")
+        logger.info(f"Started hybrid training job {job_id} with {len(training_data.pairs)} pairs")
         
         return JSONResponse(
             status_code=202,
             content={
                 "job_id": job_id,
                 "status": "started",
-                "message": f"LangChain training started with {len(training_data.pairs)} pairs",
+                "message": f"Hybrid training started with {len(training_data.pairs)} pairs",
                 "estimated_duration_minutes": len(training_data.pairs) // 10 + 5,  # Rough estimate
-                "langchain_features": {
+                "hybrid_features": {
                     "will_update_hot_cache": True,
-                    "will_update_langchain_chromadb": True,
+                    "will_update_chromadb": True,
                     "intelligent_routing_enabled": True,
-                    "vector_store": "Chroma",
-                    "embeddings": "SentenceTransformerEmbeddings"
+                    "vector_store": "ChromaDB",
+                    "embeddings": "SentenceTransformers"
                 }
             }
         )
         
     except Exception as e:
-        logger.error(f"Error starting LangChain training: {e}")
+        logger.error(f"Error starting training: {e}")
         return JSONResponse(
             status_code=500,
             content={
                 "overall_status": "unhealthy",
                 "error": "Training service error",
                 "timestamp": datetime.now().isoformat(),
-                "langchain_integration": "failed"
+                "chromadb_integration": "failed"
             }
         )
 
 @router.get("/train/{job_id}")
 async def get_training_status(job_id: str) -> JSONResponse:
     """
-    Get training job status with LangChain hybrid system integration details
+    Get training job status with hybrid system integration details
     """
     if job_id not in training_jobs:
         raise HTTPException(status_code=404, detail="Training job not found")
@@ -203,7 +203,7 @@ async def get_training_status(job_id: str) -> JSONResponse:
     if job_info["status"] == "completed":
         job_info["next_steps"] = {
             "recommendation": "Test the updated model with sample queries",
-            "langchain_benefits": "New model integrated into both hot cache and LangChain ChromaDB",
+            "hybrid_benefits": "New model integrated into both hot cache and ChromaDB",
             "performance_impact": "Improved accuracy with maintained speed via intelligent routing"
         }
     
@@ -211,14 +211,14 @@ async def get_training_status(job_id: str) -> JSONResponse:
 
 @router.get("/health")
 async def health_check(
-    langchain_kb: LangChainHybridKnowledgeBase = Depends(get_langchain_hybrid_kb)
+    hybrid_kb: HybridKnowledgeBase = Depends(get_hybrid_kb)
 ) -> JSONResponse:
     """
-    Comprehensive health check for LangChain hybrid knowledge base system
+    Comprehensive health check for hybrid knowledge base system
     """
     try:
-        # Get LangChain hybrid system health
-        health_info = await langchain_kb.health_check()
+        # Get hybrid system health
+        health_info = await hybrid_kb.health_check()
         
         # Add API-level health info
         health_info["api"] = {
@@ -227,18 +227,18 @@ async def health_check(
             "total_training_jobs": len(training_jobs)
         }
         
-        # Add LangChain specific info
-        health_info["langchain_integration"] = {
+        # Add hybrid specific info
+        health_info["hybrid_integration"] = {
             "status": "active",
-            "vector_store": "Chroma",
-            "embeddings": "SentenceTransformerEmbeddings",
+            "vector_store": "ChromaDB",
+            "embeddings": "SentenceTransformers",
             "retriever": "BaseRetriever with similarity_score_threshold"
         }
         
         # Determine overall status
         component_statuses = [
             health_info["components"].get("hot_cache", {}).get("status", "unknown"),
-            health_info["components"].get("langchain_chromadb", {}).get("status", "unknown"),
+            health_info["components"].get("chromadb", {}).get("status", "unknown"),
             health_info["components"].get("models", {}).get("sentence_transformer", "unknown"),
             health_info["components"].get("retriever", {}).get("status", "unknown"),
             health_info["api"]["status"]
@@ -259,33 +259,33 @@ async def health_check(
         )
         
     except Exception as e:
-        logger.error(f"LangChain health check failed: {e}")
+        logger.error(f"Hybrid health check failed: {e}")
         return JSONResponse(
             status_code=503,
             content={
                 "overall_status": "unhealthy",
                 "error": "Health check failed",
                 "timestamp": datetime.now().isoformat(),
-                "langchain_integration": "failed"
+                "chromadb_integration": "failed"
             }
         )
 
 @router.get("/performance")
 async def get_performance_metrics(
-    langchain_kb: LangChainHybridKnowledgeBase = Depends(get_langchain_hybrid_kb)
+    hybrid_kb: HybridKnowledgeBase = Depends(get_hybrid_kb)
 ) -> JSONResponse:
     """
-    Get detailed performance metrics for the LangChain hybrid system
+    Get detailed performance metrics for the hybrid system
     """
     try:
-        stats = langchain_kb.get_performance_stats()
+        stats = hybrid_kb.get_performance_stats()
         
         # Add performance analysis
         analysis = {
             "performance_grade": "A",  # Default
             "recommendations": [],
             "tier_efficiency": {},
-            "langchain_performance": {}
+            "hybrid_performance": {}
         }
         
         # Analyze hot cache performance
@@ -298,15 +298,15 @@ async def get_performance_metrics(
             analysis["tier_efficiency"]["hot_cache"] = "needs_improvement"
             analysis["recommendations"].append("Consider increasing hot cache size or adjusting promotion criteria")
         
-        # Analyze LangChain performance
+        # Analyze hybrid performance
         warm_hit_rate = stats.get('warm_hit_rate', 0)
         cold_hit_rate = stats.get('cold_hit_rate', 0)
         
-        analysis["langchain_performance"] = {
+        analysis["hybrid_performance"] = {
             "warm_cache_efficiency": "excellent" if warm_hit_rate > 0.6 else "good" if warm_hit_rate > 0.3 else "needs_improvement",
             "cold_storage_usage": "balanced" if cold_hit_rate < 0.5 else "high",
-            "vector_store": "Chroma",
-            "embeddings": "SentenceTransformerEmbeddings"
+            "vector_store": "ChromaDB",
+            "embeddings": "SentenceTransformers"
         }
         
         # Analyze response times
@@ -316,11 +316,11 @@ async def get_performance_metrics(
         
         warm_avg = stats.get('warm_cache_avg_ms', 0)
         if warm_avg > 30:
-            analysis["recommendations"].append("LangChain warm cache may need optimization")
+            analysis["recommendations"].append("Hybrid warm cache may need optimization")
         
         cold_avg = stats.get('cold_storage_avg_ms', 0)
         if cold_avg > 100:
-            analysis["recommendations"].append("LangChain cold storage performance could be improved")
+            analysis["recommendations"].append("Hybrid cold storage performance could be improved")
         
         # Overall grade
         if hot_hit_rate > 0.8 and hot_avg < 5:
@@ -337,9 +337,9 @@ async def get_performance_metrics(
             content={
                 "performance_metrics": stats,
                 "analysis": analysis,
-                "langchain_integration": {
-                    "vector_store": "Chroma",
-                    "embeddings": "SentenceTransformerEmbeddings",
+                "hybrid_integration": {
+                    "vector_store": "ChromaDB",
+                    "embeddings": "SentenceTransformers",
                     "intelligent_routing": True
                 },
                 "timestamp": datetime.now().isoformat()
@@ -347,42 +347,42 @@ async def get_performance_metrics(
         )
         
     except Exception as e:
-        logger.error(f"Error getting LangChain performance metrics: {e}")
+        logger.error(f"Error getting hybrid performance metrics: {e}")
         return JSONResponse(
             status_code=500,
             content={
                 "overall_status": "unhealthy",
                 "error": "Internal server error",
                 "timestamp": datetime.now().isoformat(),
-                "langchain_integration": "failed"
+                "chromadb_integration": "failed"
             }
         )
 
 @router.post("/knowledge")
 async def add_knowledge_item(
     item: KnowledgeBaseItem,
-    langchain_kb: LangChainHybridKnowledgeBase = Depends(get_langchain_hybrid_kb)
+    hybrid_kb: HybridKnowledgeBase = Depends(get_hybrid_kb)
 ) -> JSONResponse:
     """
-    Add new knowledge item to the LangChain hybrid system
+    Add new knowledge item to the hybrid system
     """
     try:
-        success = await langchain_kb.add_knowledge_item(item)
+        success = await hybrid_kb.add_knowledge_item(item)
         
         if success:
             return JSONResponse(
                 status_code=201,
                 content={
-                    "message": "Knowledge item added successfully via LangChain",
+                    "message": "Knowledge item added successfully via hybrid",
                     "item": {
                         "issue": item.issue,
                         "category": item.category,
                         "tags": item.tags
                     },
                     "storage_info": {
-                        "added_to_langchain_chromadb": True,
-                        "vector_store": "Chroma",
-                        "embeddings": "SentenceTransformerEmbeddings",
+                        "added_to_chromadb": True,
+                        "vector_store": "ChromaDB",
+                        "embeddings": "SentenceTransformers",
                         "will_be_promoted_to_cache": "based on usage patterns"
                     }
                 }
@@ -390,29 +390,29 @@ async def add_knowledge_item(
         else:
             raise HTTPException(
                 status_code=500,
-                detail="Failed to add knowledge item to LangChain system"
+                detail="Failed to add knowledge item to hybrid system"
             )
             
     except Exception as e:
-        logger.error(f"Error adding knowledge item to LangChain: {e}")
+        logger.error(f"Error adding knowledge item to hybrid: {e}")
         return JSONResponse(
             status_code=500,
             content={
                 "overall_status": "unhealthy",
                 "error": "Internal server error",
                 "timestamp": datetime.now().isoformat(),
-                "langchain_integration": "failed"
+                "chromadb_integration": "failed"
             }
         )
 
-async def run_langchain_hybrid_training(
+async def run_hybrid_training(
     job_id: str,
     training_pairs: List[TrainingPair],
     model: SentenceTransformerModel,
-    langchain_kb: LangChainHybridKnowledgeBase
+    hybrid_kb: HybridKnowledgeBase
 ):
     """
-    Background task for training with LangChain hybrid system integration
+    Background task for training with hybrid system integration
     """
     try:
         # Update job status
@@ -429,7 +429,7 @@ async def run_langchain_hybrid_training(
         model_version = await model.fine_tune(training_pairs)
         
         training_jobs[job_id]["progress"] = 70
-        training_jobs[job_id]["current_step"] = "updating_langchain_hybrid_system"
+        training_jobs[job_id]["current_step"] = "updating_hybrid_system"
         
         # Extract new knowledge items from training pairs
         new_items = []
@@ -439,14 +439,14 @@ async def run_langchain_hybrid_training(
                 issue=pair.query,
                 resolution=pair.positive_example,
                 category="trained",
-                tags=["fine_tuned", "user_provided", "langchain"]
+                tags=["fine_tuned", "user_provided", "hybrid"]
             )
             new_items.append(item)
         
-        # Add new items to LangChain hybrid system
+        # Add new items to hybrid system
         added_count = 0
         for item in new_items:
-            if await langchain_kb.add_knowledge_item(item):
+            if await hybrid_kb.add_knowledge_item(item):
                 added_count += 1
         
         training_jobs[job_id]["progress"] = 90
@@ -459,19 +459,19 @@ async def run_langchain_hybrid_training(
             "current_step": "completed",
             "completion_time": datetime.now().isoformat(),
             "model_version": model_version,
-            "langchain_integration": {
+            "hybrid_integration": {
                 "hot_cache_updated": True,
-                "langchain_chromadb_updated": True,
+                "chromadb_updated": True,
                 "new_items_added": added_count,
-                "vector_store": "Chroma",
-                "embeddings": "SentenceTransformerEmbeddings"
+                "vector_store": "ChromaDB",
+                "embeddings": "SentenceTransformers"
             }
         })
         
-        logger.info(f"LangChain training job {job_id} completed successfully")
+        logger.info(f"Hybrid training job {job_id} completed successfully")
         
     except Exception as e:
-        logger.error(f"LangChain training job {job_id} failed: {e}")
+        logger.error(f"Hybrid training job {job_id} failed: {e}")
         training_jobs[job_id].update({
             "status": "failed",
             "error": str(e),
