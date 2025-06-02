@@ -45,7 +45,7 @@ cd kb-nova-pipeline-models
 pip install -r requirements.txt
 
 # Start the service
-python main.py
+python run.py
 ```
 
 **Service available at: `http://localhost:8080`**
@@ -186,7 +186,7 @@ Query → Hot Cache (in-memory) → Fast Response (1-5ms)
 ### **Run Integration Tests**
 ```bash
 # Start the service
-python main.py
+python run.py
 
 # In another terminal, run tests
 python test_integration.py
@@ -211,7 +211,7 @@ python migrate_data.py
 
 **2. Import into new system:**
 ```bash
-python main.py  # Start new service
+python run.py  # Start new service
 curl -X POST "http://localhost:8080/train" \
      -H "Content-Type: application/json" \
      -d @migrated_data/migrated_knowledge_YYYYMMDD_HHMMSS.json
@@ -234,8 +234,13 @@ curl -X POST "http://localhost:8080/train" \
 
 ### **Project Structure**
 ```
-├── main.py                 # Complete application (476 lines)
-├── requirements.txt        # 6 essential dependencies
+├── run.py                  # Production entry point
+├── src/                    # Modular application source
+│   ├── main.py            # FastAPI application
+│   ├── api/               # API routes
+│   ├── models/            # Business logic
+│   └── utils/             # Utilities
+├── requirements.txt        # Dependencies
 ├── config.example         # Configuration template
 ├── migrate_data.py         # Migration from old system
 ├── test_integration.py     # Comprehensive tests
@@ -258,9 +263,9 @@ FROM python:3.9-slim
 WORKDIR /app
 COPY requirements.txt .
 RUN pip install -r requirements.txt
-COPY main.py .
+COPY . .
 EXPOSE 8080
-CMD ["python", "main.py"]
+CMD ["python", "run.py"]
 ```
 
 ### **Health Monitoring**

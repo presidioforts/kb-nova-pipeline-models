@@ -9,6 +9,7 @@ import requests
 import json
 import time
 from typing import Dict, Any
+import concurrent.futures
 
 # Test configuration
 BASE_URL = "http://localhost:8080"
@@ -25,7 +26,7 @@ class TestKnowledgeBaseAPI:
             assert response.status_code == 200
             return requests.Session()
         except requests.exceptions.ConnectionError:
-            pytest.skip("API service not running. Start with: python main.py")
+            pytest.skip("API service not running. Start with: python run.py")
     
     def test_service_health(self, api_client):
         """Test basic service health"""
@@ -198,8 +199,6 @@ class TestPerformance:
     
     def test_concurrent_searches(self, api_client):
         """Test multiple concurrent searches"""
-        import concurrent.futures
-        
         def search_query(query_text):
             query_data = {"text": f"concurrent test {query_text}"}
             response = api_client.post(f"{BASE_URL}/troubleshoot", json=query_data)
@@ -225,7 +224,7 @@ def run_integration_tests():
             print("❌ Service not responding correctly")
             return False
     except requests.exceptions.ConnectionError:
-        print("❌ Service not running. Please start with: python main.py")
+        print("❌ Service not running. Please start with: python run.py")
         return False
     
     # Run tests
