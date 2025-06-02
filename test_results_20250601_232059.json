@@ -1,0 +1,817 @@
+{
+  "test_suite_version": "1.0",
+  "start_time": "2025-06-01T23:20:49.095243",
+  "tests": {
+    "basic_functionality": {
+      "total_tests": 18,
+      "passed": 6,
+      "failed": 12,
+      "test_details": [
+        {
+          "name": "npm_error",
+          "query": "npm install error",
+          "passed": true,
+          "issues": [],
+          "search_time_ms": 68.8,
+          "results_count": 4,
+          "routing_info": {
+            "total_items_searched": 4,
+            "chromadb_integration": true,
+            "vector_store": "ChromaDB",
+            "embeddings": "SentenceTransformers",
+            "performance_tier_hit_rates": {
+              "hot_memory": 100.0,
+              "warm_cache": 0.0,
+              "cold_storage": 0.0
+            }
+          }
+        },
+        {
+          "name": "python_import",
+          "query": "cannot import module",
+          "passed": false,
+          "issues": [
+            "Expected min 1 results, got 0",
+            "Expected max 100ms, took 305.53799999999995ms"
+          ],
+          "search_time_ms": 305.53799999999995,
+          "results_count": 0,
+          "routing_info": {
+            "tier_used": "no_results",
+            "total_items_searched": 0,
+            "chromadb_integration": true
+          }
+        },
+        {
+          "name": "docker_build",
+          "query": "docker build failed",
+          "passed": true,
+          "issues": [],
+          "search_time_ms": 47.03,
+          "results_count": 3,
+          "routing_info": {
+            "total_items_searched": 3,
+            "chromadb_integration": true,
+            "vector_store": "ChromaDB",
+            "embeddings": "SentenceTransformers",
+            "performance_tier_hit_rates": {
+              "hot_memory": 75.0,
+              "warm_cache": 0.0,
+              "cold_storage": 0.0
+            }
+          }
+        },
+        {
+          "name": "kubernetes_pod",
+          "query": "pod not starting kubernetes",
+          "passed": false,
+          "issues": [
+            "Expected min 1 results, got 0"
+          ],
+          "search_time_ms": 57.207,
+          "results_count": 0,
+          "routing_info": {
+            "tier_used": "no_results",
+            "total_items_searched": 0,
+            "chromadb_integration": true
+          }
+        },
+        {
+          "name": "aws_s3",
+          "query": "s3 bucket access denied",
+          "passed": false,
+          "issues": [
+            "Expected min 1 results, got 0"
+          ],
+          "search_time_ms": 62.441,
+          "results_count": 0,
+          "routing_info": {
+            "tier_used": "no_results",
+            "total_items_searched": 0,
+            "chromadb_integration": true
+          }
+        },
+        {
+          "name": "database_connection",
+          "query": "database connection timeout",
+          "passed": false,
+          "issues": [
+            "Expected min 1 results, got 0"
+          ],
+          "search_time_ms": 57.579,
+          "results_count": 0,
+          "routing_info": {
+            "tier_used": "no_results",
+            "total_items_searched": 0,
+            "chromadb_integration": true
+          }
+        },
+        {
+          "name": "complex_error",
+          "query": "react component not rendering after state update",
+          "passed": false,
+          "issues": [
+            "Expected min 1 results, got 0"
+          ],
+          "search_time_ms": 53.998999999999995,
+          "results_count": 0,
+          "routing_info": {
+            "tier_used": "no_results",
+            "total_items_searched": 0,
+            "chromadb_integration": true
+          }
+        },
+        {
+          "name": "performance_issue",
+          "query": "slow database query optimization needed",
+          "passed": false,
+          "issues": [
+            "Expected min 1 results, got 0"
+          ],
+          "search_time_ms": 55.518,
+          "results_count": 0,
+          "routing_info": {
+            "tier_used": "no_results",
+            "total_items_searched": 0,
+            "chromadb_integration": true
+          }
+        },
+        {
+          "name": "deployment_problem",
+          "query": "kubernetes deployment rollback after failed update",
+          "passed": false,
+          "issues": [
+            "Expected min 1 results, got 0"
+          ],
+          "search_time_ms": 126.915,
+          "results_count": 0,
+          "routing_info": {
+            "tier_used": "no_results",
+            "total_items_searched": 0,
+            "chromadb_integration": true
+          }
+        },
+        {
+          "name": "short_query",
+          "query": "error",
+          "passed": true,
+          "issues": [],
+          "search_time_ms": 103.41300000000001,
+          "results_count": 0,
+          "routing_info": {
+            "tier_used": "no_results",
+            "total_items_searched": 0,
+            "chromadb_integration": true
+          }
+        },
+        {
+          "name": "very_specific",
+          "query": "ModuleNotFoundError: No module named 'specific_package_v2'",
+          "passed": true,
+          "issues": [],
+          "search_time_ms": 153.06,
+          "results_count": 3,
+          "routing_info": {
+            "total_items_searched": 3,
+            "chromadb_integration": true,
+            "vector_store": "ChromaDB",
+            "embeddings": "SentenceTransformers",
+            "performance_tier_hit_rates": {
+              "hot_memory": 33.3,
+              "warm_cache": 0.0,
+              "cold_storage": 0.0
+            }
+          }
+        },
+        {
+          "name": "mixed_tech",
+          "query": "docker container running python flask app connection refused",
+          "passed": false,
+          "issues": [
+            "Expected min 1 results, got 0"
+          ],
+          "search_time_ms": 64.06,
+          "results_count": 0,
+          "routing_info": {
+            "tier_used": "no_results",
+            "total_items_searched": 0,
+            "chromadb_integration": true
+          }
+        },
+        {
+          "name": "natural_1",
+          "query": "How do I fix a broken npm installation?",
+          "passed": true,
+          "issues": [],
+          "search_time_ms": 58.61,
+          "results_count": 3,
+          "routing_info": {
+            "total_items_searched": 3,
+            "chromadb_integration": true,
+            "vector_store": "ChromaDB",
+            "embeddings": "SentenceTransformers",
+            "performance_tier_hit_rates": {
+              "hot_memory": 28.6,
+              "warm_cache": 7.1,
+              "cold_storage": 0.0
+            }
+          }
+        },
+        {
+          "name": "natural_2",
+          "query": "My server keeps crashing, what should I check?",
+          "passed": false,
+          "issues": [
+            "Expected min 1 results, got 0"
+          ],
+          "search_time_ms": 125.62899999999999,
+          "results_count": 0,
+          "routing_info": {
+            "tier_used": "no_results",
+            "total_items_searched": 0,
+            "chromadb_integration": true
+          }
+        },
+        {
+          "name": "natural_3",
+          "query": "Database is running slow, need optimization tips",
+          "passed": false,
+          "issues": [
+            "Expected min 1 results, got 0"
+          ],
+          "search_time_ms": 60.413000000000004,
+          "results_count": 0,
+          "routing_info": {
+            "tier_used": "no_results",
+            "total_items_searched": 0,
+            "chromadb_integration": true
+          }
+        },
+        {
+          "name": "frequent_1",
+          "query": "npm ERR code ERESOLVE",
+          "passed": false,
+          "issues": [
+            "Expected min 1 results, got 0",
+            "Expected max 50ms, took 136.75799999999998ms"
+          ],
+          "search_time_ms": 136.75799999999998,
+          "results_count": 0,
+          "routing_info": {
+            "tier_used": "no_results",
+            "total_items_searched": 0,
+            "chromadb_integration": true
+          }
+        },
+        {
+          "name": "frequent_2",
+          "query": "docker container not starting",
+          "passed": false,
+          "issues": [
+            "Expected min 1 results, got 0"
+          ],
+          "search_time_ms": 69.53,
+          "results_count": 0,
+          "routing_info": {
+            "tier_used": "no_results",
+            "total_items_searched": 0,
+            "chromadb_integration": true
+          }
+        },
+        {
+          "name": "rare_query",
+          "query": "very specific uncommon technical issue",
+          "passed": true,
+          "issues": [],
+          "search_time_ms": 61.337999999999994,
+          "results_count": 0,
+          "routing_info": {
+            "tier_used": "no_results",
+            "total_items_searched": 0,
+            "chromadb_integration": true
+          }
+        }
+      ]
+    },
+    "performance": {
+      "sequential_performance": {
+        "total_queries": 30,
+        "avg_response_time": 93.49722067515056,
+        "min_response_time": 42.76871681213379,
+        "max_response_time": 316.6031837463379,
+        "success_rate": 1.0,
+        "routing_stats": {
+          "hot_hits": 0,
+          "warm_hits": 0,
+          "cold_hits": 0
+        },
+        "query_results": [
+          {
+            "query": "npm install error",
+            "response_time_ms": 107.29098320007324,
+            "results_count": 4,
+            "routing_info": {
+              "total_items_searched": 4,
+              "chromadb_integration": true,
+              "vector_store": "ChromaDB",
+              "embeddings": "SentenceTransformers",
+              "performance_tier_hit_rates": {
+                "hot_memory": 25.0,
+                "warm_cache": 5.0,
+                "cold_storage": 0.0
+              }
+            },
+            "iteration": 0
+          },
+          {
+            "query": "cannot import module",
+            "response_time_ms": 140.86556434631348,
+            "results_count": 0,
+            "routing_info": {
+              "tier_used": "no_results",
+              "total_items_searched": 0,
+              "chromadb_integration": true
+            },
+            "iteration": 0
+          },
+          {
+            "query": "docker build failed",
+            "response_time_ms": 54.76999282836914,
+            "results_count": 3,
+            "routing_info": {
+              "total_items_searched": 3,
+              "chromadb_integration": true,
+              "vector_store": "ChromaDB",
+              "embeddings": "SentenceTransformers",
+              "performance_tier_hit_rates": {
+                "hot_memory": 27.3,
+                "warm_cache": 4.5,
+                "cold_storage": 0.0
+              }
+            },
+            "iteration": 0
+          },
+          {
+            "query": "pod not starting kubernetes",
+            "response_time_ms": 126.82223320007324,
+            "results_count": 0,
+            "routing_info": {
+              "tier_used": "no_results",
+              "total_items_searched": 0,
+              "chromadb_integration": true
+            },
+            "iteration": 0
+          },
+          {
+            "query": "s3 bucket access denied",
+            "response_time_ms": 123.31652641296387,
+            "results_count": 0,
+            "routing_info": {
+              "tier_used": "no_results",
+              "total_items_searched": 0,
+              "chromadb_integration": true
+            },
+            "iteration": 0
+          },
+          {
+            "query": "database connection timeout",
+            "response_time_ms": 127.15268135070801,
+            "results_count": 0,
+            "routing_info": {
+              "tier_used": "no_results",
+              "total_items_searched": 0,
+              "chromadb_integration": true
+            },
+            "iteration": 0
+          },
+          {
+            "query": "react component not rendering after state update",
+            "response_time_ms": 129.1499137878418,
+            "results_count": 0,
+            "routing_info": {
+              "tier_used": "no_results",
+              "total_items_searched": 0,
+              "chromadb_integration": true
+            },
+            "iteration": 0
+          },
+          {
+            "query": "slow database query optimization needed",
+            "response_time_ms": 113.27624320983887,
+            "results_count": 0,
+            "routing_info": {
+              "tier_used": "no_results",
+              "total_items_searched": 0,
+              "chromadb_integration": true
+            },
+            "iteration": 0
+          },
+          {
+            "query": "kubernetes deployment rollback after failed update",
+            "response_time_ms": 65.27924537658691,
+            "results_count": 0,
+            "routing_info": {
+              "tier_used": "no_results",
+              "total_items_searched": 0,
+              "chromadb_integration": true
+            },
+            "iteration": 0
+          },
+          {
+            "query": "error",
+            "response_time_ms": 49.10564422607422,
+            "results_count": 0,
+            "routing_info": {
+              "tier_used": "no_results",
+              "total_items_searched": 0,
+              "chromadb_integration": true
+            },
+            "iteration": 0
+          },
+          {
+            "query": "npm install error",
+            "response_time_ms": 56.39529228210449,
+            "results_count": 4,
+            "routing_info": {
+              "total_items_searched": 4,
+              "chromadb_integration": true,
+              "vector_store": "ChromaDB",
+              "embeddings": "SentenceTransformers",
+              "performance_tier_hit_rates": {
+                "hot_memory": 23.3,
+                "warm_cache": 3.3,
+                "cold_storage": 0.0
+              }
+            },
+            "iteration": 1
+          },
+          {
+            "query": "cannot import module",
+            "response_time_ms": 128.88836860656738,
+            "results_count": 0,
+            "routing_info": {
+              "tier_used": "no_results",
+              "total_items_searched": 0,
+              "chromadb_integration": true
+            },
+            "iteration": 1
+          },
+          {
+            "query": "docker build failed",
+            "response_time_ms": 316.6031837463379,
+            "results_count": 3,
+            "routing_info": {
+              "total_items_searched": 3,
+              "chromadb_integration": true,
+              "vector_store": "ChromaDB",
+              "embeddings": "SentenceTransformers",
+              "performance_tier_hit_rates": {
+                "hot_memory": 25.0,
+                "warm_cache": 3.1,
+                "cold_storage": 0.0
+              }
+            },
+            "iteration": 1
+          },
+          {
+            "query": "pod not starting kubernetes",
+            "response_time_ms": 103.95383834838867,
+            "results_count": 0,
+            "routing_info": {
+              "tier_used": "no_results",
+              "total_items_searched": 0,
+              "chromadb_integration": true
+            },
+            "iteration": 1
+          },
+          {
+            "query": "s3 bucket access denied",
+            "response_time_ms": 99.92265701293945,
+            "results_count": 0,
+            "routing_info": {
+              "tier_used": "no_results",
+              "total_items_searched": 0,
+              "chromadb_integration": true
+            },
+            "iteration": 1
+          },
+          {
+            "query": "database connection timeout",
+            "response_time_ms": 87.08667755126953,
+            "results_count": 0,
+            "routing_info": {
+              "tier_used": "no_results",
+              "total_items_searched": 0,
+              "chromadb_integration": true
+            },
+            "iteration": 1
+          },
+          {
+            "query": "react component not rendering after state update",
+            "response_time_ms": 91.13478660583496,
+            "results_count": 0,
+            "routing_info": {
+              "tier_used": "no_results",
+              "total_items_searched": 0,
+              "chromadb_integration": true
+            },
+            "iteration": 1
+          },
+          {
+            "query": "slow database query optimization needed",
+            "response_time_ms": 98.09422492980957,
+            "results_count": 0,
+            "routing_info": {
+              "tier_used": "no_results",
+              "total_items_searched": 0,
+              "chromadb_integration": true
+            },
+            "iteration": 1
+          },
+          {
+            "query": "kubernetes deployment rollback after failed update",
+            "response_time_ms": 137.61329650878906,
+            "results_count": 0,
+            "routing_info": {
+              "tier_used": "no_results",
+              "total_items_searched": 0,
+              "chromadb_integration": true
+            },
+            "iteration": 1
+          },
+          {
+            "query": "error",
+            "response_time_ms": 42.76871681213379,
+            "results_count": 0,
+            "routing_info": {
+              "tier_used": "no_results",
+              "total_items_searched": 0,
+              "chromadb_integration": true
+            },
+            "iteration": 1
+          },
+          {
+            "query": "npm install error",
+            "response_time_ms": 62.6676082611084,
+            "results_count": 4,
+            "routing_info": {
+              "total_items_searched": 4,
+              "chromadb_integration": true,
+              "vector_store": "ChromaDB",
+              "embeddings": "SentenceTransformers",
+              "performance_tier_hit_rates": {
+                "hot_memory": 22.5,
+                "warm_cache": 2.5,
+                "cold_storage": 0.0
+              }
+            },
+            "iteration": 2
+          },
+          {
+            "query": "cannot import module",
+            "response_time_ms": 59.4487190246582,
+            "results_count": 3,
+            "routing_info": {
+              "total_items_searched": 3,
+              "chromadb_integration": true,
+              "vector_store": "ChromaDB",
+              "embeddings": "SentenceTransformers",
+              "performance_tier_hit_rates": {
+                "hot_memory": 24.4,
+                "warm_cache": 2.4,
+                "cold_storage": 0.0
+              }
+            },
+            "iteration": 2
+          },
+          {
+            "query": "docker build failed",
+            "response_time_ms": 67.43526458740234,
+            "results_count": 3,
+            "routing_info": {
+              "total_items_searched": 3,
+              "chromadb_integration": true,
+              "vector_store": "ChromaDB",
+              "embeddings": "SentenceTransformers",
+              "performance_tier_hit_rates": {
+                "hot_memory": 26.2,
+                "warm_cache": 2.4,
+                "cold_storage": 0.0
+              }
+            },
+            "iteration": 2
+          },
+          {
+            "query": "pod not starting kubernetes",
+            "response_time_ms": 68.14336776733398,
+            "results_count": 0,
+            "routing_info": {
+              "tier_used": "no_results",
+              "total_items_searched": 0,
+              "chromadb_integration": true
+            },
+            "iteration": 2
+          },
+          {
+            "query": "s3 bucket access denied",
+            "response_time_ms": 65.11926651000977,
+            "results_count": 0,
+            "routing_info": {
+              "tier_used": "no_results",
+              "total_items_searched": 0,
+              "chromadb_integration": true
+            },
+            "iteration": 2
+          },
+          {
+            "query": "database connection timeout",
+            "response_time_ms": 52.71315574645996,
+            "results_count": 0,
+            "routing_info": {
+              "tier_used": "no_results",
+              "total_items_searched": 0,
+              "chromadb_integration": true
+            },
+            "iteration": 2
+          },
+          {
+            "query": "react component not rendering after state update",
+            "response_time_ms": 63.61269950866699,
+            "results_count": 0,
+            "routing_info": {
+              "tier_used": "no_results",
+              "total_items_searched": 0,
+              "chromadb_integration": true
+            },
+            "iteration": 2
+          },
+          {
+            "query": "slow database query optimization needed",
+            "response_time_ms": 53.42292785644531,
+            "results_count": 0,
+            "routing_info": {
+              "tier_used": "no_results",
+              "total_items_searched": 0,
+              "chromadb_integration": true
+            },
+            "iteration": 2
+          },
+          {
+            "query": "kubernetes deployment rollback after failed update",
+            "response_time_ms": 69.63038444519043,
+            "results_count": 0,
+            "routing_info": {
+              "tier_used": "no_results",
+              "total_items_searched": 0,
+              "chromadb_integration": true
+            },
+            "iteration": 2
+          },
+          {
+            "query": "error",
+            "response_time_ms": 43.23315620422363,
+            "results_count": 0,
+            "routing_info": {
+              "tier_used": "no_results",
+              "total_items_searched": 0,
+              "chromadb_integration": true
+            },
+            "iteration": 2
+          }
+        ]
+      },
+      "concurrent_performance": {
+        "concurrent_requests": 10,
+        "successful_requests": 10,
+        "total_time_seconds": 2.5321314334869385,
+        "requests_per_second": 3.94924207635985,
+        "success_rate": 1.0
+      }
+    },
+    "synthetic_data": {
+      "synthetic_items_generated": 100,
+      "items_added_successfully": 10,
+      "category_search_results": {
+        "total_queries": 5,
+        "avg_response_time": 110.42628288269043,
+        "min_response_time": 47.098636627197266,
+        "max_response_time": 137.96496391296387,
+        "success_rate": 1.0,
+        "routing_stats": {
+          "hot_hits": 0,
+          "warm_hits": 0,
+          "cold_hits": 0
+        },
+        "query_results": [
+          {
+            "query": "javascript error",
+            "response_time_ms": 109.9402904510498,
+            "results_count": 0,
+            "routing_info": {
+              "tier_used": "no_results",
+              "total_items_searched": 0,
+              "chromadb_integration": true
+            },
+            "iteration": 0
+          },
+          {
+            "query": "python error",
+            "response_time_ms": 120.19753456115723,
+            "results_count": 0,
+            "routing_info": {
+              "tier_used": "no_results",
+              "total_items_searched": 0,
+              "chromadb_integration": true
+            },
+            "iteration": 0
+          },
+          {
+            "query": "docker error",
+            "response_time_ms": 47.098636627197266,
+            "results_count": 2,
+            "routing_info": {
+              "total_items_searched": 2,
+              "chromadb_integration": true,
+              "vector_store": "ChromaDB",
+              "embeddings": "SentenceTransformers",
+              "performance_tier_hit_rates": {
+                "hot_memory": 35.5,
+                "warm_cache": 1.6,
+                "cold_storage": 0.0
+              }
+            },
+            "iteration": 0
+          },
+          {
+            "query": "kubernetes error",
+            "response_time_ms": 137.96496391296387,
+            "results_count": 0,
+            "routing_info": {
+              "tier_used": "no_results",
+              "total_items_searched": 0,
+              "chromadb_integration": true
+            },
+            "iteration": 0
+          },
+          {
+            "query": "aws error",
+            "response_time_ms": 136.92998886108398,
+            "results_count": 0,
+            "routing_info": {
+              "tier_used": "no_results",
+              "total_items_searched": 0,
+              "chromadb_integration": true
+            },
+            "iteration": 0
+          }
+        ]
+      },
+      "sample_items": [
+        {
+          "issue": "SQS queue example_queue message delay",
+          "resolution": "Install missing dependency: make",
+          "category": "devops",
+          "tags": [
+            "devops",
+            "info",
+            "configuration"
+          ]
+        },
+        {
+          "issue": "Foreign key constraint violation",
+          "resolution": "Install missing dependency: gcc",
+          "category": "mobile",
+          "tags": [
+            "mobile",
+            "performance",
+            "warning"
+          ]
+        },
+        {
+          "issue": "Registry authentication failed",
+          "resolution": "Add max_timeout to docker.conf",
+          "category": "docker",
+          "tags": [
+            "info",
+            "network",
+            "security",
+            "docker"
+          ]
+        }
+      ]
+    },
+    "health_monitoring": {
+      "health_status": 503,
+      "health_data": {},
+      "components_healthy": 0
+    }
+  },
+  "summary": {
+    "total_test_time_seconds": 10.411997556686401,
+    "basic_tests_passed": 6,
+    "basic_tests_failed": 12,
+    "avg_response_time_ms": 93.49722067515056,
+    "system_health": 503,
+    "overall_status": "FAIL"
+  }
+}
