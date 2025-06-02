@@ -16,7 +16,8 @@ import threading
 from datetime import datetime, timedelta
 
 import chromadb
-from chromadb.config import Settings
+# Remove deprecated Settings import
+# from chromadb.config import Settings
 import numpy as np
 from sentence_transformers import SentenceTransformer
 
@@ -222,120 +223,129 @@ class HotMemoryCache:
             
             # Get top results
             top_indices = np.argsort(similarities)[::-1][:top_k]
-            results = [
-                (self.items[idx], float(similarities[idx]))
-                for idx in top_indices
-                if similarities[idx] > 0.3  # Minimum similarity threshold
-            ]
+            
+            results = []
+            for idx in top_indices:
+                if similarities[idx] > 0.3:  # Threshold for relevance
+                    results.append((self.items[idx], float(similarities[idx])))
+                    self.access_count[idx] += 1
         
-        response_time = (time.time() - start_time) * 1000
-        logger.debug(f"Hot memory search completed in {response_time:.2f}ms")
-        
+        logger.debug(f"Hot cache search took {(time.time() - start_time) * 1000:.2f}ms")
         return results
     
     def add_item(self, item: KnowledgeBaseItem) -> bool:
-        """Add item to hot cache (LRU eviction)"""
+        """Add item to hot cache"""
         with self.lock:
-            # Check if already exists
-            for existing in self.items:
-                if existing.issue == item.issue:
-                    return False
+            if len(self.items) >= self.max_size:
+                # Remove least accessed item
+                min_access_idx = min(range(len(self.items)), 
+                                   key=lambda i: self.access_count[i])
+                self.items.pop(min_access_idx)
+                
+                # Shift access counts
+                new_counts = defaultdict(int)
+                for i, count in self.access_count.items():
+                    if i < min_access_idx:
+                        new_counts[i] = count
+                    elif i > min_access_idx:
+                        new_counts[i-1] = count
+                self.access_count = new_counts
             
-            # Add new item
-            self.items.insert(0, item)
-            
-            # Evict if over capacity
-            if len(self.items) > self.max_size:
-                evicted = self.items.pop()
-                logger.debug(f"Evicted item from hot cache: {evicted.issue[:50]}...")
-            
-            # Rebuild embeddings
+            self.items.append(item)
             self._rebuild_embeddings()
+            logger.debug(f"Added item to hot cache: {item.issue[:50]}...")
             return True
     
     def promote_item(self, item: KnowledgeBaseItem):
-        """Promote item to front of cache"""
+        """Promote item to front of hot cache"""
         with self.lock:
-            # Remove if exists
-            self.items = [i for i in self.items if i.issue != item.issue]
-            # Add to front
-            self.items.insert(0, item)
-            self._rebuild_embeddings()
+            if item not in self.items:
+                self.add_item(item)
+            else:
+                idx = self.items.index(item)
+                self.access_count[idx] += 10  # Boost access count
 
 class WarmCache:
-    """Warm cache tier with ChromaDB + local caching"""
+    """Intermediate cache layer for ChromaDB queries"""
     
     def __init__(self, cache_size: int = 5000):
+        self.cache: Dict[str, Tuple[List[Tuple[KnowledgeBaseItem, float]], datetime]] = {}
         self.cache_size = cache_size
-        self.local_cache: Dict[str, List[Tuple[KnowledgeBaseItem, float]]] = {}
-        self.cache_timestamps: Dict[str, datetime] = {}
-        self.cache_ttl = timedelta(minutes=30)  # 30 minute TTL
         self.lock = threading.RLock()
-    
+        self.ttl_seconds = 3600  # 1 hour TTL
+        
     def _get_cache_key(self, query: str, top_k: int) -> str:
         """Generate cache key for query"""
-        return f"{hashlib.md5(query.encode()).hexdigest()[:16]}_{top_k}"
+        return f"{hashlib.md5(query.encode()).hexdigest()}_{top_k}"
     
     def _is_cache_valid(self, cache_key: str) -> bool:
         """Check if cache entry is still valid"""
-        if cache_key not in self.cache_timestamps:
+        if cache_key not in self.cache:
             return False
-        return datetime.now() - self.cache_timestamps[cache_key] < self.cache_ttl
+        _, timestamp = self.cache[cache_key]
+        return (datetime.now() - timestamp).seconds < self.ttl_seconds
+    
+    def _parse_tags_from_metadata(self, tags_value) -> List[str]:
+        """Convert tags from ChromaDB metadata format back to list"""
+        if isinstance(tags_value, str) and tags_value:
+            return [tag.strip() for tag in tags_value.split(',') if tag.strip()]
+        elif isinstance(tags_value, list):
+            return tags_value
+        else:
+            return []
     
     async def search(self, query: str, chromadb_client, top_k: int = 5) -> List[Tuple[KnowledgeBaseItem, float]]:
-        """Search with local caching"""
+        """Search with caching layer"""
         cache_key = self._get_cache_key(query, top_k)
         
-        # Check local cache first
+        # Check cache first
         with self.lock:
-            if cache_key in self.local_cache and self._is_cache_valid(cache_key):
-                logger.debug(f"Warm cache hit for query: {query[:50]}...")
-                return self.local_cache[cache_key]
+            if self._is_cache_valid(cache_key):
+                results, _ = self.cache[cache_key]
+                logger.debug(f"Warm cache hit for query: {query[:30]}...")
+                return results
         
-        # Query ChromaDB
-        start_time = time.time()
+        # Cache miss - query ChromaDB
         try:
-            collection = chromadb_client.get_collection("knowledge_base")
-            results = collection.query(
+            if chromadb_client is None:
+                logger.warning("ChromaDB client not available for warm cache")
+                return []
+                
+            collection = chromadb_client.get_collection("hybrid_kb")
+            chroma_results = collection.query(
                 query_texts=[query],
                 n_results=top_k,
                 include=["documents", "metadatas", "distances"]
             )
             
-            # Convert to KnowledgeBaseItem format
             items = []
-            if results['documents'] and results['documents'][0]:
-                for i, (doc, metadata, distance) in enumerate(zip(
-                    results['documents'][0],
-                    results['metadatas'][0],
-                    results['distances'][0]
-                )):
-                    # Convert distance to similarity (ChromaDB uses cosine distance)
+            if chroma_results['documents'] and chroma_results['documents'][0]:
+                for doc, metadata, distance in zip(
+                    chroma_results['documents'][0],
+                    chroma_results['metadatas'][0],
+                    chroma_results['distances'][0]
+                ):
                     similarity = 1.0 - distance
-                    if similarity > 0.3:  # Minimum threshold
+                    if similarity > 0.3:
                         item = KnowledgeBaseItem(
                             issue=metadata.get('issue', ''),
                             resolution=metadata.get('resolution', ''),
                             category=metadata.get('category', 'general'),
-                            tags=metadata.get('tags', [])
+                            tags=self._parse_tags_from_metadata(metadata.get('tags', []))
                         )
                         items.append((item, similarity))
             
             # Cache results
             with self.lock:
-                self.local_cache[cache_key] = items
-                self.cache_timestamps[cache_key] = datetime.now()
+                if len(self.cache) >= self.cache_size:
+                    # Remove oldest entry
+                    oldest_key = min(self.cache.keys(), 
+                                   key=lambda k: self.cache[k][1])
+                    del self.cache[oldest_key]
                 
-                # Evict old cache entries if needed
-                if len(self.local_cache) > self.cache_size:
-                    oldest_key = min(self.cache_timestamps.keys(), 
-                                   key=lambda k: self.cache_timestamps[k])
-                    del self.local_cache[oldest_key]
-                    del self.cache_timestamps[oldest_key]
+                self.cache[cache_key] = (items, datetime.now())
             
-            response_time = (time.time() - start_time) * 1000
-            logger.debug(f"Warm cache search completed in {response_time:.2f}ms")
-            
+            logger.debug(f"Warm cache stored {len(items)} results for: {query[:30]}...")
             return items
             
         except Exception as e:
@@ -343,34 +353,39 @@ class WarmCache:
             return []
 
 class HybridKnowledgeBase:
-    """Production-ready hybrid knowledge base with intelligent routing"""
+    """Hybrid knowledge base with intelligent routing"""
     
     def __init__(self, config: Optional[Dict[str, Any]] = None):
         self.config = config or {}
+        self.model: Optional[SentenceTransformer] = None
+        self.chromadb_client = None
+        self.collection = None
+        self.collection_name = "hybrid_kb"
         
         # Initialize components
+        self.hot_cache = HotMemoryCache(max_size=1000)
+        self.warm_cache = WarmCache(cache_size=5000)
         self.router = IntelligentRouter()
-        self.hot_cache = HotMemoryCache(max_size=self.config.get('hot_cache_size', 1000))
-        self.warm_cache = WarmCache(cache_size=self.config.get('warm_cache_size', 5000))
-        
-        # ChromaDB client
-        self.chromadb_client: Optional[chromadb.Client] = None
-        self.collection_name = "knowledge_base"
-        
-        # Model
-        self.model: Optional[SentenceTransformer] = None
         
         # Performance tracking
+        self.lock = threading.RLock()
         self.performance_stats = {
-            'hot_hits': 0,
-            'warm_hits': 0, 
-            'cold_hits': 0,
             'total_queries': 0,
+            'hot_hits': 0,
+            'warm_hits': 0,
+            'cold_hits': 0,
             'avg_response_times': defaultdict(list)
         }
-        
-        self.lock = threading.RLock()
-        
+
+    def _parse_tags_from_metadata(self, tags_value) -> List[str]:
+        """Convert tags from ChromaDB metadata format back to list"""
+        if isinstance(tags_value, str) and tags_value:
+            return [tag.strip() for tag in tags_value.split(',') if tag.strip()]
+        elif isinstance(tags_value, list):
+            return tags_value
+        else:
+            return []
+
     async def initialize(self):
         """Initialize the hybrid knowledge base"""
         try:
@@ -393,24 +408,22 @@ class HybridKnowledgeBase:
         except Exception as e:
             logger.error(f"Failed to initialize hybrid knowledge base: {e}")
             raise
-    
+
     async def _initialize_chromadb(self):
         """Initialize ChromaDB client and collection"""
         try:
-            # Configure ChromaDB for production
-            settings = Settings(
-                chroma_db_impl="duckdb+parquet",
-                persist_directory=self.config.get('chromadb_path', './chromadb_data'),
-                anonymized_telemetry=False
-            )
+            # Use new ChromaDB client initialization (no deprecated Settings)
+            persist_directory = self.config.get('chromadb_path', './chromadb_data')
             
-            self.chromadb_client = chromadb.Client(settings)
+            # Create persistent client with the new pattern
+            self.chromadb_client = chromadb.PersistentClient(path=persist_directory)
             
             # Create or get collection
             try:
                 self.collection = self.chromadb_client.get_collection(self.collection_name)
                 logger.info(f"Connected to existing ChromaDB collection: {self.collection_name}")
-            except:
+            except Exception:
+                # Collection doesn't exist, create it
                 self.collection = self.chromadb_client.create_collection(
                     name=self.collection_name,
                     metadata={"description": "Hybrid knowledge base storage"}
@@ -420,7 +433,7 @@ class HybridKnowledgeBase:
         except Exception as e:
             logger.error(f"ChromaDB initialization failed: {e}")
             raise
-    
+
     async def _populate_chromadb_if_needed(self):
         """Populate ChromaDB with initial data if empty"""
         try:
@@ -434,7 +447,7 @@ class HybridKnowledgeBase:
                 
         except Exception as e:
             logger.error(f"Failed to populate ChromaDB: {e}")
-    
+
     async def bulk_add_to_chromadb(self, items: List[KnowledgeBaseItem]):
         """Bulk add items to ChromaDB"""
         if not items:
@@ -453,7 +466,7 @@ class HybridKnowledgeBase:
                     'issue': item.issue,
                     'resolution': item.resolution,
                     'category': item.category,
-                    'tags': item.tags
+                    'tags': ','.join(item.tags) if item.tags else ''  # Convert list to comma-separated string
                 })
                 ids.append(f"kb_item_{i}_{hashlib.md5(item.issue.encode()).hexdigest()[:8]}")
             
@@ -469,7 +482,7 @@ class HybridKnowledgeBase:
         except Exception as e:
             logger.error(f"Bulk add to ChromaDB failed: {e}")
             raise
-    
+
     async def search(self, query: str, top_k: int = 5) -> List[Tuple[KnowledgeBaseItem, float]]:
         """Main search method with intelligent routing"""
         start_time = time.time()
@@ -560,7 +573,7 @@ class HybridKnowledgeBase:
                             issue=metadata.get('issue', ''),
                             resolution=metadata.get('resolution', ''),
                             category=metadata.get('category', 'general'),
-                            tags=metadata.get('tags', [])
+                            tags=self._parse_tags_from_metadata(metadata.get('tags', []))
                         )
                         items.append((item, similarity))
             
@@ -653,7 +666,7 @@ class HybridKnowledgeBase:
                     'issue': item.issue,
                     'resolution': item.resolution,
                     'category': item.category,
-                    'tags': item.tags
+                    'tags': ','.join(item.tags) if item.tags else ''  # Convert list to comma-separated string
                 }],
                 ids=[item_id]
             )

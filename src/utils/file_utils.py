@@ -17,6 +17,17 @@ RUNS_DIR.mkdir(parents=True, exist_ok=True)
 LEGACY_DIR = BASE_MODEL_DIR / "fine-tuned"
 
 
+def get_model_path() -> str:
+    """Get the model path for SentenceTransformer loading."""
+    # Check for fine-tuned model first
+    latest_dir = latest_run_dir()
+    if latest_dir and latest_dir.exists():
+        return str(latest_dir)
+    
+    # Fall back to base model
+    return "sentence-transformers/all-mpnet-base-v2"
+
+
 def latest_run_dir() -> Optional[pathlib.Path]:
     """Pick latest fine-tuned directory (if any)."""
     candidates = sorted([p for p in RUNS_DIR.iterdir() if p.is_dir()],

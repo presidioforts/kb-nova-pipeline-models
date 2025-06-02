@@ -16,3 +16,6 @@ knowledge_base: List[KnowledgeBaseItem] = [
 # Build learned_pairs from disk
 defined_pairs: List[TrainingPair] = load_pairs_from_disk()
 learned_pairs = defined_pairs 
+
+# Alias for backward compatibility with imports
+KNOWLEDGE_BASE = knowledge_base 

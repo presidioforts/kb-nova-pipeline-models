@@ -8,3 +8,243 @@
 2025-06-01 22:09:32,730 - __main__ - ERROR - [run.py:74] - Install required packages: pip install -r requirements.txt
 2025-06-01 22:09:32,731 - __main__ - ERROR - [run.py:138] - Environment validation failed, exiting...
 2025-06-01 22:09:32,731 - __main__ - INFO - [run.py:182] - Hybrid Knowledge Base Service shutdown complete
+2025-06-01 22:34:20,007 - __main__ - INFO - [run.py:130] - Starting Hybrid Knowledge Base Service...
+2025-06-01 22:34:20,009 - __main__ - ERROR - [run.py:73] - Missing dependency: No module named 'uvicorn'
+2025-06-01 22:34:20,009 - __main__ - ERROR - [run.py:74] - Install required packages: pip install -r requirements.txt
+2025-06-01 22:34:20,010 - __main__ - ERROR - [run.py:138] - Environment validation failed, exiting...
+2025-06-01 22:34:20,010 - __main__ - INFO - [run.py:182] - Hybrid Knowledge Base Service shutdown complete
+2025-06-01 22:34:43,416 - __main__ - INFO - [run.py:130] - Starting Hybrid Knowledge Base Service...
+2025-06-01 22:35:06,706 - __main__ - ERROR - [run.py:73] - Missing dependency: cannot import name 'cached_download' from 'huggingface_hub' (C:\Users\krish\AIDevWorkspace\kb-nova-pipeline-models\venv\Lib\site-packages\huggingface_hub\__init__.py)
+2025-06-01 22:35:06,707 - __main__ - ERROR - [run.py:74] - Install required packages: pip install -r requirements.txt
+2025-06-01 22:35:06,707 - __main__ - ERROR - [run.py:138] - Environment validation failed, exiting...
+2025-06-01 22:35:06,708 - __main__ - INFO - [run.py:182] - Hybrid Knowledge Base Service shutdown complete
+2025-06-01 22:35:44,211 - __main__ - INFO - [run.py:130] - Starting Hybrid Knowledge Base Service...
+2025-06-01 22:35:44,212 - __main__ - ERROR - [run.py:73] - Missing dependency: No module named 'uvicorn'
+2025-06-01 22:35:44,212 - __main__ - ERROR - [run.py:74] - Install required packages: pip install -r requirements.txt
+2025-06-01 22:35:44,212 - __main__ - ERROR - [run.py:138] - Environment validation failed, exiting...
+2025-06-01 22:35:44,213 - __main__ - INFO - [run.py:182] - Hybrid Knowledge Base Service shutdown complete
+2025-06-01 22:37:18,347 - __main__ - INFO - [run.py:130] - Starting Hybrid Knowledge Base Service...
+2025-06-01 22:37:18,349 - __main__ - ERROR - [run.py:73] - Missing dependency: No module named 'uvicorn'
+2025-06-01 22:37:18,349 - __main__ - ERROR - [run.py:74] - Install required packages: pip install -r requirements.txt
+2025-06-01 22:37:18,349 - __main__ - ERROR - [run.py:138] - Environment validation failed, exiting...
+2025-06-01 22:37:18,349 - __main__ - INFO - [run.py:182] - Hybrid Knowledge Base Service shutdown complete
+2025-06-01 22:54:56,520 - __main__ - INFO - [run.py:130] - Starting Hybrid Knowledge Base Service...
+2025-06-01 22:54:56,523 - __main__ - ERROR - [run.py:73] - Missing dependency: No module named 'uvicorn'
+2025-06-01 22:54:56,524 - __main__ - ERROR - [run.py:74] - Install required packages: pip install -r requirements.txt
+2025-06-01 22:54:56,524 - __main__ - ERROR - [run.py:138] - Environment validation failed, exiting...
+2025-06-01 22:54:56,524 - __main__ - INFO - [run.py:182] - Hybrid Knowledge Base Service shutdown complete
+2025-06-01 22:55:57,876 - __main__ - INFO - [run.py:130] - Starting Hybrid Knowledge Base Service...
+2025-06-01 22:56:16,986 - sentence_transformers.SentenceTransformer - INFO - [SentenceTransformer.py:66] - Load pretrained SentenceTransformer: sentence-transformers/all-mpnet-base-v2
+2025-06-01 22:56:17,556 - sentence_transformers.SentenceTransformer - INFO - [SentenceTransformer.py:105] - Use pytorch device: cpu
+2025-06-01 22:56:17,714 - src.models.sentence_transformer - INFO - [sentence_transformer.py:35] - Model loaded from: sentence-transformers/all-mpnet-base-v2
+2025-06-01 22:56:17,730 - __main__ - INFO - [run.py:69] - All critical dependencies available
+2025-06-01 22:56:17,730 - __main__ - INFO - [run.py:143] - Server configuration: {'host': '0.0.0.0', 'port': 8000, 'workers': 1, 'reload': False, 'log_level': 'info', 'access_log': True, 'use_colors': True}
+2025-06-01 22:56:17,738 - __main__ - INFO - [run.py:99] - Performing startup health check...
+2025-06-01 22:56:17,739 - sentence_transformers.SentenceTransformer - INFO - [SentenceTransformer.py:66] - Load pretrained SentenceTransformer: sentence-transformers/all-mpnet-base-v2
+2025-06-01 22:56:17,972 - sentence_transformers.SentenceTransformer - INFO - [SentenceTransformer.py:105] - Use pytorch device: cpu
+2025-06-01 22:56:17,972 - src.models.hybrid_knowledge_base - INFO - [hybrid_knowledge_base.py:380] - Loaded model from sentence-transformers/all-mpnet-base-v2
+2025-06-01 22:56:17,975 - src.models.hybrid_knowledge_base - ERROR - [hybrid_knowledge_base.py:421] - ChromaDB initialization failed: [91mYou are using a deprecated configuration of Chroma.
+
+[94mIf you do not have data you wish to migrate, you only need to change how you construct
+your Chroma client. Please see the "New Clients" section of https://docs.trychroma.com/migration.
+________________________________________________________________________________________________
+
+If you do have data you wish to migrate, we have a migration tool you can use in order to
+migrate your data to the new Chroma architecture.
+Please `pip install chroma-migrate` and run `chroma-migrate` to migrate your data and then
+change how you construct your Chroma client.
+
+See https://docs.trychroma.com/migration for more information or join our discord at https://discord.gg/8g5FESbj for help![0m
+2025-06-01 22:56:17,975 - src.models.hybrid_knowledge_base - ERROR - [hybrid_knowledge_base.py:394] - Failed to initialize hybrid knowledge base: [91mYou are using a deprecated configuration of Chroma.
+
+[94mIf you do not have data you wish to migrate, you only need to change how you construct
+your Chroma client. Please see the "New Clients" section of https://docs.trychroma.com/migration.
+________________________________________________________________________________________________
+
+If you do have data you wish to migrate, we have a migration tool you can use in order to
+migrate your data to the new Chroma architecture.
+Please `pip install chroma-migrate` and run `chroma-migrate` to migrate your data and then
+change how you construct your Chroma client.
+
+See https://docs.trychroma.com/migration for more information or join our discord at https://discord.gg/8g5FESbj for help![0m
+2025-06-01 22:56:17,976 - __main__ - ERROR - [run.py:111] - Startup health check failed: [91mYou are using a deprecated configuration of Chroma.
+
+[94mIf you do not have data you wish to migrate, you only need to change how you construct
+your Chroma client. Please see the "New Clients" section of https://docs.trychroma.com/migration.
+________________________________________________________________________________________________
+
+If you do have data you wish to migrate, we have a migration tool you can use in order to
+migrate your data to the new Chroma architecture.
+Please `pip install chroma-migrate` and run `chroma-migrate` to migrate your data and then
+change how you construct your Chroma client.
+
+See https://docs.trychroma.com/migration for more information or join our discord at https://discord.gg/8g5FESbj for help![0m
+2025-06-01 22:56:17,977 - __main__ - ERROR - [run.py:112] - Service may not be fully functional
+2025-06-01 22:56:17,979 - __main__ - WARNING - [run.py:149] - Startup health check failed, but continuing...
+2025-06-01 22:56:17,980 - __main__ - INFO - [run.py:159] - Starting server on 0.0.0.0:8000
+2025-06-01 22:56:17,980 - __main__ - INFO - [run.py:160] - API Documentation: http://0.0.0.0:8000/docs
+2025-06-01 22:56:17,981 - __main__ - INFO - [run.py:161] - Health Check: http://0.0.0.0:8000/api/v1/health
+2025-06-01 22:56:18,180 - src.main - INFO - [main.py:28] - 🚀 Starting Hybrid Knowledge Base Service...
+2025-06-01 22:56:18,182 - src.main - INFO - [main.py:33] - ✅ Hybrid knowledge base initialized successfully
+2025-06-01 22:56:18,183 - src.main - INFO - [main.py:37] - 📊 System Status: degraded
+2025-06-01 22:56:18,184 - src.main - INFO - [main.py:42] -    hot_cache: unhealthy
+2025-06-01 22:56:18,184 - src.main - INFO - [main.py:42] -    chromadb: unhealthy
+2025-06-01 22:56:18,184 - src.main - INFO - [main.py:42] -    model: healthy
+2025-06-01 22:56:18,185 - src.main - INFO - [main.py:48] - 📈 Performance baseline established
+2025-06-01 22:57:17,484 - src.models.hybrid_knowledge_base - ERROR - [hybrid_knowledge_base.py:342] - Warm cache search failed: 'NoneType' object has no attribute 'get_collection'
+2025-06-01 22:57:17,485 - src.models.hybrid_knowledge_base - INFO - [hybrid_knowledge_base.py:517] - Search completed in 3.02ms using warm_cache
+2025-06-01 22:57:17,486 - src.api.routes - WARNING - [routes.py:208] - No results found for query: npm install error
+2025-06-01 22:57:28,540 - src.models.hybrid_knowledge_base - ERROR - [hybrid_knowledge_base.py:342] - Warm cache search failed: 'NoneType' object has no attribute 'get_collection'
+2025-06-01 22:57:28,541 - src.models.hybrid_knowledge_base - ERROR - [hybrid_knowledge_base.py:574] - Cold storage search failed: 'NoneType' object has no attribute 'get_collection'
+2025-06-01 22:57:28,542 - src.models.hybrid_knowledge_base - INFO - [hybrid_knowledge_base.py:517] - Search completed in 1.89ms using cold_storage
+2025-06-01 22:57:28,543 - src.api.routes - WARNING - [routes.py:208] - No results found for query: npm ERR code ERESOLVE
+2025-06-01 23:01:56,578 - __main__ - INFO - [run.py:130] - Starting Hybrid Knowledge Base Service...
+2025-06-01 23:02:11,183 - sentence_transformers.SentenceTransformer - INFO - [SentenceTransformer.py:66] - Load pretrained SentenceTransformer: sentence-transformers/all-mpnet-base-v2
+2025-06-01 23:02:11,622 - sentence_transformers.SentenceTransformer - INFO - [SentenceTransformer.py:105] - Use pytorch device: cpu
+2025-06-01 23:02:11,752 - src.models.sentence_transformer - INFO - [sentence_transformer.py:35] - Model loaded from: sentence-transformers/all-mpnet-base-v2
+2025-06-01 23:02:11,765 - __main__ - INFO - [run.py:69] - All critical dependencies available
+2025-06-01 23:02:11,766 - __main__ - INFO - [run.py:143] - Server configuration: {'host': '0.0.0.0', 'port': 8000, 'workers': 1, 'reload': False, 'log_level': 'info', 'access_log': True, 'use_colors': True}
+2025-06-01 23:02:11,767 - __main__ - INFO - [run.py:99] - Performing startup health check...
+2025-06-01 23:02:11,768 - sentence_transformers.SentenceTransformer - INFO - [SentenceTransformer.py:66] - Load pretrained SentenceTransformer: sentence-transformers/all-mpnet-base-v2
+2025-06-01 23:02:11,952 - sentence_transformers.SentenceTransformer - INFO - [SentenceTransformer.py:105] - Use pytorch device: cpu
+2025-06-01 23:02:11,952 - src.models.hybrid_knowledge_base - INFO - [hybrid_knowledge_base.py:377] - Loaded model from sentence-transformers/all-mpnet-base-v2
+2025-06-01 23:02:12,150 - chromadb.telemetry.product.posthog - INFO - [posthog.py:20] - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-06-01 23:02:13,076 - src.models.hybrid_knowledge_base - INFO - [hybrid_knowledge_base.py:413] - Created new ChromaDB collection: hybrid_kb
+2025-06-01 23:02:13,077 - src.models.hybrid_knowledge_base - ERROR - [hybrid_knowledge_base.py:391] - Failed to initialize hybrid knowledge base: 'KnowledgeBaseItem' object has no attribute 'issue'
+2025-06-01 23:02:13,078 - __main__ - ERROR - [run.py:111] - Startup health check failed: 'KnowledgeBaseItem' object has no attribute 'issue'
+2025-06-01 23:02:13,078 - __main__ - ERROR - [run.py:112] - Service may not be fully functional
+2025-06-01 23:02:13,079 - __main__ - WARNING - [run.py:149] - Startup health check failed, but continuing...
+2025-06-01 23:02:13,080 - __main__ - INFO - [run.py:159] - Starting server on 0.0.0.0:8000
+2025-06-01 23:02:13,080 - __main__ - INFO - [run.py:160] - API Documentation: http://0.0.0.0:8000/docs
+2025-06-01 23:02:13,081 - __main__ - INFO - [run.py:161] - Health Check: http://0.0.0.0:8000/api/v1/health
+2025-06-01 23:02:13,168 - src.main - INFO - [main.py:28] - 🚀 Starting Hybrid Knowledge Base Service...
+2025-06-01 23:02:13,169 - src.main - INFO - [main.py:33] - ✅ Hybrid knowledge base initialized successfully
+2025-06-01 23:02:13,172 - src.main - INFO - [main.py:37] - 📊 System Status: healthy
+2025-06-01 23:02:13,173 - src.main - INFO - [main.py:42] -    hot_cache: healthy
+2025-06-01 23:02:13,174 - src.main - INFO - [main.py:42] -    chromadb: healthy
+2025-06-01 23:02:13,174 - src.main - INFO - [main.py:42] -    model: healthy
+2025-06-01 23:02:13,174 - src.main - INFO - [main.py:48] - 📈 Performance baseline established
+2025-06-01 23:02:40,400 - src.models.hybrid_knowledge_base - INFO - [hybrid_knowledge_base.py:512] - Search completed in 6892.97ms using cold_storage
+2025-06-01 23:02:40,400 - src.api.routes - WARNING - [routes.py:208] - No results found for query: npm ERR code ERESOLVE
+2025-06-01 23:03:24,497 - __main__ - INFO - [run.py:130] - Starting Hybrid Knowledge Base Service...
+2025-06-01 23:03:41,376 - sentence_transformers.SentenceTransformer - INFO - [SentenceTransformer.py:66] - Load pretrained SentenceTransformer: sentence-transformers/all-mpnet-base-v2
+2025-06-01 23:03:41,908 - sentence_transformers.SentenceTransformer - INFO - [SentenceTransformer.py:105] - Use pytorch device: cpu
+2025-06-01 23:03:42,032 - src.models.sentence_transformer - INFO - [sentence_transformer.py:35] - Model loaded from: sentence-transformers/all-mpnet-base-v2
+2025-06-01 23:03:42,043 - __main__ - INFO - [run.py:69] - All critical dependencies available
+2025-06-01 23:03:42,043 - __main__ - INFO - [run.py:143] - Server configuration: {'host': '0.0.0.0', 'port': 8000, 'workers': 1, 'reload': False, 'log_level': 'info', 'access_log': True, 'use_colors': True}
+2025-06-01 23:03:42,045 - __main__ - INFO - [run.py:99] - Performing startup health check...
+2025-06-01 23:03:42,046 - sentence_transformers.SentenceTransformer - INFO - [SentenceTransformer.py:66] - Load pretrained SentenceTransformer: sentence-transformers/all-mpnet-base-v2
+2025-06-01 23:03:42,231 - sentence_transformers.SentenceTransformer - INFO - [SentenceTransformer.py:105] - Use pytorch device: cpu
+2025-06-01 23:03:42,232 - src.models.hybrid_knowledge_base - INFO - [hybrid_knowledge_base.py:377] - Loaded model from sentence-transformers/all-mpnet-base-v2
+2025-06-01 23:03:42,278 - chromadb.telemetry.product.posthog - INFO - [posthog.py:20] - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-06-01 23:03:42,567 - src.models.hybrid_knowledge_base - INFO - [hybrid_knowledge_base.py:406] - Connected to existing ChromaDB collection: hybrid_kb
+2025-06-01 23:03:42,854 - src.models.hybrid_knowledge_base - INFO - [hybrid_knowledge_base.py:199] - Hot memory cache initialized with 4 items
+2025-06-01 23:03:42,877 - src.models.hybrid_knowledge_base - INFO - [hybrid_knowledge_base.py:424] - Populating ChromaDB with initial knowledge base...
+2025-06-01 23:03:42,878 - src.models.hybrid_knowledge_base - ERROR - [hybrid_knowledge_base.py:465] - Bulk add to ChromaDB failed: Expected metadata value to be a str, int, float or bool, got [] which is a <class 'list'>
+2025-06-01 23:03:42,879 - src.models.hybrid_knowledge_base - ERROR - [hybrid_knowledge_base.py:431] - Failed to populate ChromaDB: Expected metadata value to be a str, int, float or bool, got [] which is a <class 'list'>
+2025-06-01 23:03:42,879 - src.models.hybrid_knowledge_base - INFO - [hybrid_knowledge_base.py:388] - Hybrid knowledge base initialized successfully
+2025-06-01 23:03:42,881 - __main__ - INFO - [run.py:104] - Startup health check passed
+2025-06-01 23:03:42,882 - __main__ - INFO - [run.py:159] - Starting server on 0.0.0.0:8000
+2025-06-01 23:03:42,883 - __main__ - INFO - [run.py:160] - API Documentation: http://0.0.0.0:8000/docs
+2025-06-01 23:03:42,883 - __main__ - INFO - [run.py:161] - Health Check: http://0.0.0.0:8000/api/v1/health
+2025-06-01 23:03:42,964 - src.main - INFO - [main.py:28] - 🚀 Starting Hybrid Knowledge Base Service...
+2025-06-01 23:03:42,965 - src.main - INFO - [main.py:33] - ✅ Hybrid knowledge base initialized successfully
+2025-06-01 23:03:42,967 - src.main - INFO - [main.py:37] - 📊 System Status: healthy
+2025-06-01 23:03:42,968 - src.main - INFO - [main.py:42] -    hot_cache: healthy
+2025-06-01 23:03:42,968 - src.main - INFO - [main.py:42] -    chromadb: healthy
+2025-06-01 23:03:42,969 - src.main - INFO - [main.py:42] -    model: healthy
+2025-06-01 23:03:42,969 - src.main - INFO - [main.py:48] - 📈 Performance baseline established
+2025-06-01 23:04:12,043 - src.models.hybrid_knowledge_base - INFO - [hybrid_knowledge_base.py:512] - Search completed in 305.41ms using cold_storage
+2025-06-01 23:04:12,043 - src.api.routes - WARNING - [routes.py:208] - No results found for query: npm ERR code ERESOLVE
+2025-06-01 23:04:40,910 - __main__ - INFO - [run.py:130] - Starting Hybrid Knowledge Base Service...
+2025-06-01 23:04:51,650 - sentence_transformers.SentenceTransformer - INFO - [SentenceTransformer.py:66] - Load pretrained SentenceTransformer: sentence-transformers/all-mpnet-base-v2
+2025-06-01 23:04:52,218 - sentence_transformers.SentenceTransformer - INFO - [SentenceTransformer.py:105] - Use pytorch device: cpu
+2025-06-01 23:04:52,376 - src.models.sentence_transformer - INFO - [sentence_transformer.py:35] - Model loaded from: sentence-transformers/all-mpnet-base-v2
+2025-06-01 23:04:52,390 - __main__ - INFO - [run.py:69] - All critical dependencies available
+2025-06-01 23:04:52,391 - __main__ - INFO - [run.py:143] - Server configuration: {'host': '0.0.0.0', 'port': 8000, 'workers': 1, 'reload': False, 'log_level': 'info', 'access_log': True, 'use_colors': True}
+2025-06-01 23:04:52,393 - __main__ - INFO - [run.py:99] - Performing startup health check...
+2025-06-01 23:04:52,394 - sentence_transformers.SentenceTransformer - INFO - [SentenceTransformer.py:66] - Load pretrained SentenceTransformer: sentence-transformers/all-mpnet-base-v2
+2025-06-01 23:04:52,608 - sentence_transformers.SentenceTransformer - INFO - [SentenceTransformer.py:105] - Use pytorch device: cpu
+2025-06-01 23:04:52,608 - src.models.hybrid_knowledge_base - INFO - [hybrid_knowledge_base.py:377] - Loaded model from sentence-transformers/all-mpnet-base-v2
+2025-06-01 23:04:52,657 - chromadb.telemetry.product.posthog - INFO - [posthog.py:20] - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-06-01 23:04:53,412 - src.models.hybrid_knowledge_base - INFO - [hybrid_knowledge_base.py:413] - Created new ChromaDB collection: hybrid_kb
+2025-06-01 23:04:53,920 - src.models.hybrid_knowledge_base - INFO - [hybrid_knowledge_base.py:199] - Hot memory cache initialized with 4 items
+2025-06-01 23:04:53,927 - src.models.hybrid_knowledge_base - INFO - [hybrid_knowledge_base.py:424] - Populating ChromaDB with initial knowledge base...
+2025-06-01 23:04:53,928 - src.models.hybrid_knowledge_base - ERROR - [hybrid_knowledge_base.py:465] - Bulk add to ChromaDB failed: Expected metadata value to be a str, int, float or bool, got [] which is a <class 'list'>
+2025-06-01 23:04:53,929 - src.models.hybrid_knowledge_base - ERROR - [hybrid_knowledge_base.py:431] - Failed to populate ChromaDB: Expected metadata value to be a str, int, float or bool, got [] which is a <class 'list'>
+2025-06-01 23:04:53,929 - src.models.hybrid_knowledge_base - INFO - [hybrid_knowledge_base.py:388] - Hybrid knowledge base initialized successfully
+2025-06-01 23:04:53,932 - __main__ - INFO - [run.py:104] - Startup health check passed
+2025-06-01 23:04:53,935 - __main__ - INFO - [run.py:159] - Starting server on 0.0.0.0:8000
+2025-06-01 23:04:53,936 - __main__ - INFO - [run.py:160] - API Documentation: http://0.0.0.0:8000/docs
+2025-06-01 23:04:53,936 - __main__ - INFO - [run.py:161] - Health Check: http://0.0.0.0:8000/api/v1/health
+2025-06-01 23:04:54,090 - src.main - INFO - [main.py:28] - 🚀 Starting Hybrid Knowledge Base Service...
+2025-06-01 23:04:54,092 - src.main - INFO - [main.py:33] - ✅ Hybrid knowledge base initialized successfully
+2025-06-01 23:04:54,094 - src.main - INFO - [main.py:37] - 📊 System Status: healthy
+2025-06-01 23:04:54,095 - src.main - INFO - [main.py:42] -    hot_cache: healthy
+2025-06-01 23:04:54,096 - src.main - INFO - [main.py:42] -    chromadb: healthy
+2025-06-01 23:04:54,097 - src.main - INFO - [main.py:42] -    model: healthy
+2025-06-01 23:04:54,098 - src.main - INFO - [main.py:48] - 📈 Performance baseline established
+2025-06-01 23:10:09,504 - __main__ - INFO - [run.py:130] - Starting Hybrid Knowledge Base Service...
+2025-06-01 23:10:19,038 - sentence_transformers.SentenceTransformer - INFO - [SentenceTransformer.py:66] - Load pretrained SentenceTransformer: sentence-transformers/all-mpnet-base-v2
+2025-06-01 23:10:19,422 - sentence_transformers.SentenceTransformer - INFO - [SentenceTransformer.py:105] - Use pytorch device: cpu
+2025-06-01 23:10:19,547 - src.models.sentence_transformer - INFO - [sentence_transformer.py:35] - Model loaded from: sentence-transformers/all-mpnet-base-v2
+2025-06-01 23:10:19,556 - __main__ - INFO - [run.py:69] - All critical dependencies available
+2025-06-01 23:10:19,557 - __main__ - INFO - [run.py:143] - Server configuration: {'host': '0.0.0.0', 'port': 8000, 'workers': 1, 'reload': False, 'log_level': 'info', 'access_log': True, 'use_colors': True}
+2025-06-01 23:10:19,559 - __main__ - INFO - [run.py:99] - Performing startup health check...
+2025-06-01 23:10:19,561 - sentence_transformers.SentenceTransformer - INFO - [SentenceTransformer.py:66] - Load pretrained SentenceTransformer: sentence-transformers/all-mpnet-base-v2
+2025-06-01 23:10:19,676 - sentence_transformers.SentenceTransformer - INFO - [SentenceTransformer.py:105] - Use pytorch device: cpu
+2025-06-01 23:10:19,677 - src.models.hybrid_knowledge_base - INFO - [hybrid_knowledge_base.py:395] - Loaded model from sentence-transformers/all-mpnet-base-v2
+2025-06-01 23:10:19,700 - chromadb.telemetry.product.posthog - INFO - [posthog.py:20] - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-06-01 23:10:19,882 - src.models.hybrid_knowledge_base - INFO - [hybrid_knowledge_base.py:424] - Connected to existing ChromaDB collection: hybrid_kb
+2025-06-01 23:10:20,108 - src.models.hybrid_knowledge_base - INFO - [hybrid_knowledge_base.py:199] - Hot memory cache initialized with 4 items
+2025-06-01 23:10:20,122 - src.models.hybrid_knowledge_base - INFO - [hybrid_knowledge_base.py:442] - Populating ChromaDB with initial knowledge base...
+2025-06-01 23:10:20,646 - src.models.hybrid_knowledge_base - INFO - [hybrid_knowledge_base.py:480] - Successfully added 4 items to ChromaDB
+2025-06-01 23:10:20,646 - src.models.hybrid_knowledge_base - INFO - [hybrid_knowledge_base.py:444] - Added 4 items to ChromaDB
+2025-06-01 23:10:20,647 - src.models.hybrid_knowledge_base - INFO - [hybrid_knowledge_base.py:406] - Hybrid knowledge base initialized successfully
+2025-06-01 23:10:20,648 - __main__ - INFO - [run.py:104] - Startup health check passed
+2025-06-01 23:10:20,649 - __main__ - INFO - [run.py:159] - Starting server on 0.0.0.0:8000
+2025-06-01 23:10:20,649 - __main__ - INFO - [run.py:160] - API Documentation: http://0.0.0.0:8000/docs
+2025-06-01 23:10:20,650 - __main__ - INFO - [run.py:161] - Health Check: http://0.0.0.0:8000/api/v1/health
+2025-06-01 23:10:20,705 - src.main - INFO - [main.py:28] - 🚀 Starting Hybrid Knowledge Base Service...
+2025-06-01 23:10:20,706 - src.main - INFO - [main.py:33] - ✅ Hybrid knowledge base initialized successfully
+2025-06-01 23:10:20,707 - src.main - INFO - [main.py:37] - 📊 System Status: healthy
+2025-06-01 23:10:20,707 - src.main - INFO - [main.py:42] -    hot_cache: healthy
+2025-06-01 23:10:20,708 - src.main - INFO - [main.py:42] -    chromadb: healthy
+2025-06-01 23:10:20,708 - src.main - INFO - [main.py:42] -    model: healthy
+2025-06-01 23:10:20,708 - src.main - INFO - [main.py:48] - 📈 Performance baseline established
+2025-06-01 23:11:25,065 - __main__ - INFO - [run.py:130] - Starting Hybrid Knowledge Base Service...
+2025-06-01 23:11:25,067 - __main__ - ERROR - [run.py:73] - Missing dependency: No module named 'uvicorn'
+2025-06-01 23:11:25,067 - __main__ - ERROR - [run.py:74] - Install required packages: pip install -r requirements.txt
+2025-06-01 23:11:25,067 - __main__ - ERROR - [run.py:138] - Environment validation failed, exiting...
+2025-06-01 23:11:25,068 - __main__ - INFO - [run.py:182] - Hybrid Knowledge Base Service shutdown complete
+2025-06-01 23:13:31,853 - __main__ - INFO - [run.py:130] - Starting Hybrid Knowledge Base Service...
+2025-06-01 23:13:31,855 - __main__ - ERROR - [run.py:73] - Missing dependency: No module named 'uvicorn'
+2025-06-01 23:13:31,856 - __main__ - ERROR - [run.py:74] - Install required packages: pip install -r requirements.txt
+2025-06-01 23:13:31,856 - __main__ - ERROR - [run.py:138] - Environment validation failed, exiting...
+2025-06-01 23:13:31,856 - __main__ - INFO - [run.py:182] - Hybrid Knowledge Base Service shutdown complete
+2025-06-01 23:14:22,500 - __main__ - INFO - [run.py:130] - Starting Hybrid Knowledge Base Service...
+2025-06-01 23:14:31,950 - sentence_transformers.SentenceTransformer - INFO - [SentenceTransformer.py:66] - Load pretrained SentenceTransformer: sentence-transformers/all-mpnet-base-v2
+2025-06-01 23:14:32,245 - sentence_transformers.SentenceTransformer - INFO - [SentenceTransformer.py:105] - Use pytorch device: cpu
+2025-06-01 23:14:32,364 - src.models.sentence_transformer - INFO - [sentence_transformer.py:35] - Model loaded from: sentence-transformers/all-mpnet-base-v2
+2025-06-01 23:14:32,371 - __main__ - INFO - [run.py:69] - All critical dependencies available
+2025-06-01 23:14:32,372 - __main__ - INFO - [run.py:143] - Server configuration: {'host': '0.0.0.0', 'port': 8000, 'workers': 1, 'reload': False, 'log_level': 'info', 'access_log': True, 'use_colors': True}
+2025-06-01 23:14:32,373 - __main__ - INFO - [run.py:99] - Performing startup health check...
+2025-06-01 23:14:32,374 - sentence_transformers.SentenceTransformer - INFO - [SentenceTransformer.py:66] - Load pretrained SentenceTransformer: sentence-transformers/all-mpnet-base-v2
+2025-06-01 23:14:32,498 - sentence_transformers.SentenceTransformer - INFO - [SentenceTransformer.py:105] - Use pytorch device: cpu
+2025-06-01 23:14:32,498 - src.models.hybrid_knowledge_base - INFO - [hybrid_knowledge_base.py:395] - Loaded model from sentence-transformers/all-mpnet-base-v2
+2025-06-01 23:14:32,534 - chromadb.telemetry.product.posthog - INFO - [posthog.py:20] - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-06-01 23:14:32,716 - src.models.hybrid_knowledge_base - INFO - [hybrid_knowledge_base.py:424] - Connected to existing ChromaDB collection: hybrid_kb
+2025-06-01 23:14:32,938 - src.models.hybrid_knowledge_base - INFO - [hybrid_knowledge_base.py:199] - Hot memory cache initialized with 4 items
+2025-06-01 23:14:32,950 - src.models.hybrid_knowledge_base - INFO - [hybrid_knowledge_base.py:446] - ChromaDB already contains 4 items
+2025-06-01 23:14:32,951 - src.models.hybrid_knowledge_base - INFO - [hybrid_knowledge_base.py:406] - Hybrid knowledge base initialized successfully
+2025-06-01 23:14:32,952 - __main__ - INFO - [run.py:104] - Startup health check passed
+2025-06-01 23:14:32,953 - __main__ - INFO - [run.py:159] - Starting server on 0.0.0.0:8000
+2025-06-01 23:14:32,953 - __main__ - INFO - [run.py:160] - API Documentation: http://0.0.0.0:8000/docs
+2025-06-01 23:14:32,954 - __main__ - INFO - [run.py:161] - Health Check: http://0.0.0.0:8000/api/v1/health
+2025-06-01 23:14:33,007 - src.main - INFO - [main.py:28] - 🚀 Starting Hybrid Knowledge Base Service...
+2025-06-01 23:14:33,007 - src.main - INFO - [main.py:33] - ✅ Hybrid knowledge base initialized successfully
+2025-06-01 23:14:33,009 - src.main - INFO - [main.py:37] - 📊 System Status: healthy
+2025-06-01 23:14:33,009 - src.main - INFO - [main.py:42] -    hot_cache: healthy
+2025-06-01 23:14:33,009 - src.main - INFO - [main.py:42] -    chromadb: healthy
+2025-06-01 23:14:33,009 - src.main - INFO - [main.py:42] -    model: healthy
+2025-06-01 23:14:33,009 - src.main - INFO - [main.py:48] - 📈 Performance baseline established
